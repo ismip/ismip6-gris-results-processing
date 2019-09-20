@@ -4,13 +4,14 @@
 set -x
 
 # location of Archive
-outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05
+#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05
+outp=/home/hgoelzer/Projects/ISMIP6/Archive_05
 
 # location of tools
 ptool=${outp}/ismip6-gris-results-processing
 
-declare -a labs=(AWI)
-declare -a models=(ISSM2)
+#declare -a labs=(AWI)
+#declare -a models=(ISSM2)
 
 ## labs/models lists
 #declare -a labs=(ILTS_PIK)
@@ -27,6 +28,10 @@ declare -a models=(ISSM2)
 # labs/models lists
 #declare -a labs=(VUB)
 #declare -a models=(GISMSIAv1)
+
+# labs/models lists
+declare -a labs=(LSCE)
+declare -a models=(GRISLI)
 
 # labs/models lists
 #declare -a labs=(AWI AWI AWI ILTS_PIK ILTS_PIK IMAU JPL JPL)

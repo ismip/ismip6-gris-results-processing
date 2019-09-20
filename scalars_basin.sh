@@ -8,17 +8,18 @@
 set -x
 #set -e
 
-datapath=/Volumes/ISMIP6/ISMIP6-Greenland/Data/
+#datapath=/Volumes/ISMIP6/ISMIP6-Greenland/Data
+datapath=/home/hgoelzer/Projects/ISMIP6/Data
 
 # Resolution
 ares=05
 #ares=01
 
 # What output to process
-flg_mm=FALSE # Model mask
-flg_imb=TRUE # IMBIE2 basins
-flg_bm=FALSE # BM3 mask
-flg_ng=FALSE # BM3 + GIC mask
+flg_mm=false # Model mask
+flg_imb=true # IMBIE2 basins
+flg_bm=false # BM3 mask
+flg_ng=false # BM3 + GIC mask
 
 # area factors
 af2file=$datapath/af2_ISMIP6_GrIS_${ares}000m.nc

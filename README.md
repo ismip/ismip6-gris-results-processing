@@ -1,6 +1,8 @@
 # ismip6-gris-results-processing
 Collection of scripts to process ISMIP6 Greenland model projections
 
+# Set paths in scripts to your local environment!!
+
 # ISMIP6 archive
 # Update from lisa with pre-processed submissions
 
