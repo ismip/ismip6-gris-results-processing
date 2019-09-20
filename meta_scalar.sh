@@ -10,7 +10,7 @@ outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05
 ptool=${outp}/ismip6-gris-results-processing
 
 declare -a labs=(AWI)
-declare -a models=(ISSM1)
+declare -a models=(ISSM2)
 
 ## labs/models lists
 #declare -a labs=(ILTS_PIK)
@@ -84,13 +84,16 @@ while [ $counter -lt ${count} ]; do
 	anc=${apath}/sftgrf_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	ncks -A -v sftgrf ${anc} model.nc
 
-	# output file name
-	ancout=${apath}/rescalars_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	
 	### scalar calculations; expect model input in model.nc
-	./scalars_opt.sh
-	/bin/mv ./scalars_model_05.nc ${ancout}
-	/bin/rm model.nc
+	#./scalars_opt.sh
+	./scalars_basin.sh
+
+	### move output ./scalars_??_05.nc to Archive
+	/bin/mv ./scalars_mm_05.nc ${apath}/scalars_mm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	/bin/mv ./scalars_bm_05.nc ${apath}/scalars_bm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	/bin/mv ./scalars_ng_05.nc ${apath}/scalars_ng_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	/bin/mv ./scalars_mm_imb_05.nc ${apath}/scalars_mm_imb_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	#/bin/rm model.nc
     done
     # end exp loop
     

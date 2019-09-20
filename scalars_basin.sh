@@ -15,7 +15,8 @@ ares=05
 #ares=01
 
 # What output to process
-flg_mm=TRUE # Model mask
+flg_mm=FALSE # Model mask
+flg_imb=TRUE # IMBIE2 basins
 flg_bm=FALSE # BM3 mask
 flg_ng=FALSE # BM3 + GIC mask
 
@@ -32,6 +33,9 @@ pifile=maskPI.nc
 # BM3 for masks
 bminput=$datapath/BM3_GrIS_nn_e${ares}000m.nc
 bmfile=masksBM.nc
+# IMBIE2 extended masks
+imbinput=$datapath/ISMIP6_IMBIE2_Extensions_${ares}000m.nc
+imbfile=masksIMB.nc
 
 # Model data
 infile=./model.nc
@@ -48,6 +52,8 @@ infile=./model.nc
 scfile_mm=scalars_mm_${ares}.nc
 scfile_bm=scalars_bm_${ares}.nc
 scfile_ng=scalars_ng_${ares}.nc
+
+scfile_imb=scalars_mm_imb_${ares}.nc
 
 # Make a netcdf file with parameters
 ncks -O -v x,y ${af2file} tmp.nc
@@ -71,6 +77,14 @@ ncrename -v sftflf,sftflf_BM ${bmfile}
 # Prepare GIC masks; deselect level 0 and 1 glaciers
 ncap2 -O -s 'gicm=GIC==0' -v ${piinput} ${pifile} 
 
+# Prepare IMBIE2 masks, IDs: From NO clockwise
+ncap2 -O -s 'no=IDs==1' -v ${imbinput} ${imbfile} 
+ncap2 -A -s 'ne=IDs==2' -v ${imbinput} ${imbfile} 
+ncap2 -A -s 'se=IDs==3' -v ${imbinput} ${imbfile} 
+ncap2 -A -s 'sw=IDs==4' -v ${imbinput} ${imbfile} 
+ncap2 -A -s 'cw=IDs==5' -v ${imbinput} ${imbfile} 
+ncap2 -A -s 'nw=IDs==6' -v ${imbinput} ${imbfile} 
+
 
 # Make master netcdf file 
 ncks -O -v sftgif ${infile} tmp_mod.nc
@@ -81,6 +95,7 @@ ncks -A -v gicm ${pifile} tmp_mod.nc
 ncks -A -v sftgif_BM ${bmfile} tmp_mod.nc
 ncks -A -v sftgrf_BM ${bmfile} tmp_mod.nc
 ncks -A -v sftflf_BM ${bmfile} tmp_mod.nc
+ncks -A  ${imbfile} tmp_mod.nc
 ncks -A -v af2 ${af2file} tmp_mod.nc
 ncks -A -v lithk ${infile} tmp_mod.nc
 ncks -A -v topg ${infile} tmp_mod.nc
@@ -165,6 +180,39 @@ ncap2 -A -s "limaf=ivaf*rhoi" ${scfile_mm} ${scfile_mm}
 ncap2 -A -s "sle=ivaf*rhoi/oarea/rhof" ${scfile_mm} ${scfile_mm} 
 
 nc_clean.sh ${scfile_mm}
+
+fi
+
+##################################################################################
+# IMBIE2 basins 
+##################################################################################
+if $flg_imb; then
+
+# Make dummy containers for scalar output
+ncks -O params.nc ${scfile_imb}
+
+# Volume above flotation IMBIE2
+# sftgif
+ncks -A params.nc tmp.nc
+# thickness at flotation
+ncap2 -A -s "thif=-(rhow/rhoi)*topg; thif=thif>>0" tmp_mod.nc tmp.nc
+
+for basin in no ne se sw cw nw; do
+# thickness above flotation 
+ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; af=af>>0" tmp.nc tmpaf.nc
+ncap2 -O -s "ivaf_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
+ncks -A -v ivaf_${basin} tmpsc.nc ${scfile_imb}
+/bin/rm tmpaf.nc tmpsc.nc 
+
+# Ice mass above flotation
+ncap2 -A -s "limaf_${basin}=ivaf_${basin}*rhoi" ${scfile_imb} ${scfile_imb} 
+# SLE
+ncap2 -A -s "sle_${basin}=ivaf_${basin}*rhoi/oarea/rhof" ${scfile_imb} ${scfile_imb} 
+
+done
+/bin/rm tmp.nc 
+
+nc_clean.sh ${scfile_imb}
 
 fi
 ##################################################################################
