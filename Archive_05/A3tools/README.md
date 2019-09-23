@@ -1,4 +1,4 @@
-# ISMIP6 output processing in Archive_05
+## ISMIP6 output processing in Archive_05
 
 ## A3tools
 
@@ -14,8 +14,11 @@ mkdir -p  ../VUB/GISMSIAv1/
 cp -r ../../Archive/VUB/GISMSIAv1/* ../VUB/GISMSIAv1/
 
 
+### Pre-processing
 meta_compress.sh
-consolidate.sh
+
+### Sanity check of submissions and updates
+./consolidate.sh <br>
 
 
 ### Preliminary scalar calculations on 5 km
@@ -25,5 +28,4 @@ scalars_opt.sh
 
 scalars_basin.sh
 check_basin_integrals.sh
-
 

@@ -1,4 +1,4 @@
-# ISMIP6 output processing
+# ismip6-gris-results-processing
 
 ## This Archive is storing the download in orginal resolution from the models
 The difference to the ftp is that we try to fix incorrect res suffix naming 
