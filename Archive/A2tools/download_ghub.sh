@@ -15,6 +15,9 @@ HOST='transfer.ccr.buffalo.edu'
 USER='hgoelzer'
 
 # location of Archive
+# Mac Heiko
+#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive/Data
+# Lisa/Cartesius
 outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 # Remote path
