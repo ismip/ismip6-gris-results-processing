@@ -1,14 +1,11 @@
 #!/bin/bash
 # update Archive_sc from download Archive
 
-# location of tools
-ptool=/home/hgoelzer/Projects/ISMIP6/Archive_sc/tools/
-
 # location of Archive
-inp=/home/hgoelzer/Projects/ISMIP6/Archive
+inp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 # location of Archive_sc
-outp=/home/hgoelzer/Projects/ISMIP6/Archive_sc
+outp=/home/hgoelzer/Projects/ISMIP6/Archive_sc/Data
 
 ## labs list
 #declare -a labs=(AWI AWI AWI ILTS_PIK ILTS_PIK JPL JPL MUN UCIJPL VUB)

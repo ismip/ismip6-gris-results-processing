@@ -6,10 +6,8 @@
 #set -x
 
 # location of Archive
-outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05
+outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
 
-# location of tools
-ptool=${outp}/tools
 
 declare -a labs=(AWI AWI AWI)
 declare -a models=(ISSM1 ISSM2 ISSM3)

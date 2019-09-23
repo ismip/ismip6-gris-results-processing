@@ -5,10 +5,7 @@
 module load netcdf
 
 # location of Archive
-outp=/home/hgoelzer/Projects/ISMIP6/Archive_05
-
-# location of tools
-ptool=${outp}/tools
+outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
 # Path to SFs
 sfs=/home/hgoelzer/Projects/ISMIP6/Grids/GrIS/SFs

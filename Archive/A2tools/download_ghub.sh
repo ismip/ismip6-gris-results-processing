@@ -7,11 +7,8 @@
 HOST='transfer.ccr.buffalo.edu'
 USER='hgoelzer'
 
-# location of tools
-ptool=/home/hgoelzer/Projects/ISMIP6/Archive/tools/
-
 # location of Archive
-outp=/home/hgoelzer/Projects/ISMIP6/Archive
+outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 # Remote path
 RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output

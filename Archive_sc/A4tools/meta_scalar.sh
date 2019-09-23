@@ -6,10 +6,10 @@ set -x
 ares=01
 
 # location of Archive
-#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_${ares}
-#outp=/home/hgoelzer/Projects/ISMIP6/Archive_${ares}
+#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_${ares}/Data
+#outp=/home/hgoelzer/Projects/ISMIP6/Archive_${ares}/Data
 
-outp=/home/hgoelzer/Projects/ISMIP6/Archive
+outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 #declare -a labs=(AWI)
 #declare -a models=(ISSM2)

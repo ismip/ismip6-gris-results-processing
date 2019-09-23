@@ -4,11 +4,9 @@
 set -x
 
 # location of Archive
-outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05
-#outp=/home/hgoelzer/Projects/ISMIP6/Archive_05
+outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
+#outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
-# location of tools
-ptool=${outp}/ismip6-gris-results-processing
 
 #declare -a labs=(AWI)
 #declare -a models=(ISSM2)

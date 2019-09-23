@@ -5,13 +5,13 @@ set -x
 set -e
 
 # location of input Archive
-outp=/home/hgoelzer/Projects/ISMIP6/Archive
+outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 # location of output Archive
-outp05=/home/hgoelzer/Projects/ISMIP6/Archive_05
+outp05=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
 # location of tools
-ptool=${outp05}/tools
+ptool=${outp05}/../tools
 
 ## labs list
 #declare -a labs=(JPL JPL)

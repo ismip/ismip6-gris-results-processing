@@ -2,7 +2,7 @@
 # check directory and file names
 
 # location of Archive
-outp=/home/hgoelzer/Projects/ISMIP6/Archive
+outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 
 ## labs list
