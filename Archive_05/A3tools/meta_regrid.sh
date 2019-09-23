@@ -1,5 +1,5 @@
 #!/bin/bash
-# regrid a number of files
+# Regrid a number of files
 
 set -x 
 set -e
@@ -11,7 +11,7 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 outp05=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
 # location of tools
-ptool=${outp05}/../tools
+ptool=${outp05}/../A3tools
 
 ## labs list
 #declare -a labs=(JPL JPL)
@@ -39,19 +39,16 @@ declare -a labs=(GSFC)
 declare -a models=(ISSM)
 
 
-
 ## labs list
 #declare -a labs=(GSFC JPL JPL UCIJPL)
 ## models list
 #declare -a models=(ISSM ISSM ISSMPALEO ISSM)
 
 
-
-
 # variables
-#vars="lithk"
+vars="lithk"
 #vars="sftgrf"
-vars="lithk orog topg sftflf sftgif sftgrf"
+#vars="lithk orog topg sftflf sftgif sftgrf"
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
