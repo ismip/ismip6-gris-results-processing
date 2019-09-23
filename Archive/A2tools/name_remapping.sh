@@ -47,17 +47,30 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 #declare -a inexps=(MIROC5-rcp85-Rmed)
 #declare -a outexps=(exp05)
 
+## labs list
+#declare -a labs=(JPL)
+## models list
+#declare -a models=(ISSM)
+## res
+#res=01
+## exp mapping 
+##declare -a inexps=(historical MIROC5-rcp85-Rmed)
+##declare -a outexps=(hist exp05)
+#declare -a inexps=(MIROC5-rcp85-Rmed)
+#declare -a outexps=(exp05)
+
 # labs list
-declare -a labs=(JPL)
+declare -a labs=(VUB)
 # models list
-declare -a models=(ISSM)
+declare -a models=(GISMSIAv1)
 # res
-res=01
+res=05
 # exp mapping 
 #declare -a inexps=(historical MIROC5-rcp85-Rmed)
 #declare -a outexps=(hist exp05)
-declare -a inexps=(MIROC5-rcp85-Rmed)
+declare -a inexps=(MIROC5-rcp85_Rmed)
 declare -a outexps=(exp05)
+
 
 # variables
 vars="lithk orog topg sftflf sftgif sftgrf"

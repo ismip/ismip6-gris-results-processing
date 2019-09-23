@@ -37,11 +37,11 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 #declare -a models=(ISSM ISSMPALEO)
 #explist="MIROC5-rcp85-Rmed_01"
 
-# labs list
-declare -a labs=(JPL)
-# models list
-declare -a models=(ISSM)
-explist="MIROC5-rcp85-Rmed_01"
+## labs list
+#declare -a labs=(JPL)
+## models list
+#declare -a models=(ISSM)
+#explist="MIROC5-rcp85-Rmed_01"
 
 ## labs list
 #declare -a labs=(LSCE)
@@ -57,11 +57,11 @@ explist="MIROC5-rcp85-Rmed_01"
 #explist="exp05_05"
 #flg_resadd=true # for models that do not have res suffix
 
-## labs list
-#declare -a labs=(ILTS_PIK ILTS_PIK)
-## models list
-#declare -a models=(SICOPOLIS2 SICOPOLIS3)
-#explist="exp05_05"
+# labs list
+declare -a labs=(ILTS_PIK ILTS_PIK)
+# models list
+declare -a models=(SICOPOLIS2 SICOPOLIS3)
+explist="exp05_05"
 
 ## labs list
 #declare -a labs=(JPL)

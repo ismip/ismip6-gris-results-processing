@@ -33,11 +33,17 @@ echo "------------------"
 counter=0
 while [ $counter -lt ${count} ]; do
     
-    # find experiments
-    dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d `
-    exps_res=`basename -a ${dexps}`
+    ## find experiments
+    #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d `
+    #exps_res=`basename -a ${dexps}`
+    #echo "###"
+    #echo ${exps_res}
+
+    # list experiments
+    exps_res="exp05_05"
     echo "###"
     echo ${exps_res}
+
     # loop trough experiments    
     for exp_res in ${exps_res}; do
 
