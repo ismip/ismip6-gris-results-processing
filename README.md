@@ -21,5 +21,5 @@ Data               &nbsp;&nbsp;&nbsp;&nbsp; # BM3, masks, regions
 
 <br>
 
-Downloaded files in ../Archive are regridded and compressed into Archive_05
+Downloaded files in ../Archive are regridded and compressed into ../Archive_05
 
