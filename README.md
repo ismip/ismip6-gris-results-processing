@@ -1,22 +1,19 @@
 # ismip6-gris-results-processing
 Collection of scripts to process ISMIP6 Greenland model projections
 
-# Set paths in scripts to your local environment!!
+# Archive setup
 
-# ISMIP6 archive
-# Update from lisa with pre-processed submissions
+### On server
+A1 --> /projects/grid/ghub/ISMIP6/Projections/GrIS/output
 
-# initial checkout and update
-cd ../
-rsync -avh --exclude 'tools' lisa:/home/hgoelzer/Projects/ISMIP6/Archive_05/ ./
+### Local processing root
+Archive            # local copy of A1 with fixed file names
+Archive_05         # consolidated at 5 km
+Archive_sc         # recalculated scalar output
+
+Grids              # cdo descriptions, remapping weights, area factors
+Data               # BM3, masks, regions
 
 
-# Sanity check of submissions and updates
-./consolidate.sh
+Downloaded files in ../Archive are regridded and compressed into Archive_05
 
-
-# Result processing
-
-# All scalars recalculated
-meta_scalar.sh
-scalars_opt.sh
