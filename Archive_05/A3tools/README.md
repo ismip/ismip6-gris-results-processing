@@ -3,14 +3,14 @@
 ## A3tools
 
 ### Regrid from Archive to 5 km diagnostic grid
-./meta_regrid.sh
+./meta_regrid.sh <br>
 	regrid_func.sh
 
 ### submissions on 05 km can be copied. and then renamed and compressed e.g.
-mkdir -p ../ILTS_PIK/SICOPOLIS2/
+mkdir -p ../ILTS_PIK/SICOPOLIS2/ <br>
 cp -r ../../Archive/ILTS_PIK/SICOPOLIS2/exp12_05/ ../ILTS_PIK/SICOPOLIS2/
 
-mkdir -p  ../VUB/GISMSIAv1/
+mkdir -p  ../VUB/GISMSIAv1/ <br>
 cp -r ../../Archive/VUB/GISMSIAv1/* ../VUB/GISMSIAv1/
 
 
@@ -23,9 +23,9 @@ meta_compress.sh
 
 ### Preliminary scalar calculations on 5 km
 
-meta_scalar.sh
-scalars_opt.sh
+meta_scalar.sh <br>
+scalars_opt.sh <br>
 
-scalars_basin.sh
-check_basin_integrals.sh
+scalars_basin.sh <br>
+check_basin_integrals.sh <br>
 
