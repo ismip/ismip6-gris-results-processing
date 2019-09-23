@@ -6,13 +6,8 @@
 ./meta_regrid.sh <br>
 	regrid_func.sh
 
-### submissions on 05 km can be copied. and then renamed and compressed e.g.
-mkdir -p ../ILTS_PIK/SICOPOLIS2/ <br>
-cp -r ../../Archive/ILTS_PIK/SICOPOLIS2/exp12_05/ ../ILTS_PIK/SICOPOLIS2/
-
-mkdir -p  ../VUB/GISMSIAv1/ <br>
-cp -r ../../Archive/VUB/GISMSIAv1/* ../VUB/GISMSIAv1/
-
+### Submissions on 05 km are copied and compressed
+./meta_copy.sh
 
 ### Pre-processing
 meta_compress.sh
@@ -23,9 +18,10 @@ meta_compress.sh
 
 ### Preliminary scalar calculations on 5 km
 
-meta_scalar.sh <br>
+./meta_scalar.sh <br>
 scalars_opt.sh <br>
-
 scalars_basin.sh <br>
+
+### Integrated basins to compare to total scalars 
 check_basin_integrals.sh <br>
 
