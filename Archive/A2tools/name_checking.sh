@@ -1,14 +1,14 @@
 #!/bin/bash
-# check directory and file names
+# Check directory and file names
 
 # location of Archive
 outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 
 ## labs list
-declare -a labs=(GSFC JPL JPL  LSCE  MUN MUN UCIJPL)
+declare -a labs=(GSFC ILTS_PIK ILTS_PIK JPL JPL  LSCE  MUN MUN UCIJPL)
 # models list
-declare -a models=(ISSM ISSM ISSMPALEO GRISLI GSM2501 GSM2511 ISSM)
+declare -a models=(ISSM SICOPOLIS2 SICOPOLIS3 ISSM ISSMPALEO GRISLI GSM2501 GSM2511 ISSM)
 
 # variables
 vars="lithk orog topg sftflf sftgif sftgrf"

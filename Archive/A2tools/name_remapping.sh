@@ -1,11 +1,9 @@
 #!/bin/bash
-# remap directory names
-
-# location of tools
-ptool=/home/hgoelzer/Projects/ISMIP6/Archive/tools/
+# Remap directory names
 
 # location of Archive
-outp=/home/hgoelzer/Projects/ISMIP6/Archive
+outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
+
 
 ## labs list
 #declare -a labs=(AWI AWI AWI)
@@ -52,7 +50,7 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive
 # labs list
 declare -a labs=(JPL)
 # models list
-declare -a models=(ISSMPALEO)
+declare -a models=(ISSM)
 # res
 res=01
 # exp mapping 
@@ -103,7 +101,7 @@ while [ $counter -lt ${count} ]; do
 	#   # loop trough vars
 	for var in ${vars}; do
 
-	    # this is the target name, but the file on the ftp may be different
+	    # source and arget name
 	    #ancin=${var}_${labs[$counter]}_${models[$counter]}_${inexps[$cexp]}.nc # for JPLPALEO with "_GIS"
 	    ancin=${var}_GIS_${labs[$counter]}_${models[$counter]}_${inexps[$cexp]}.nc
 	    ancout=${var}_GIS_${labs[$counter]}_${models[$counter]}_${outexps[$cexp]}.nc

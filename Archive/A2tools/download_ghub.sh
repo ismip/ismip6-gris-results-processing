@@ -1,9 +1,16 @@
 #!/bin/bash
-# download specific files recursively
-# Depends on a directory structure already in place. Can be created by starting
-# an ftp download and interupt after first file starts loading.
+# Download files from Archive A1
 
-# NASA credentials
+# We try to correct minor filename problems by specifying the correct target name
+# See alos setting <flg_resadd> for cases where the resolution suffix is missing
+
+# Can be run to depends on a directory structure already in place. 
+# In that case we update files in the existing directory structure 
+
+# Or specify groups/models manually 
+
+
+# UB credentials
 HOST='transfer.ccr.buffalo.edu'
 USER='hgoelzer'
 
@@ -12,6 +19,7 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 # Remote path
 RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
+
 
 ### labs list
 #declare -a labs=(VUB)
@@ -29,17 +37,31 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 #declare -a models=(ISSM ISSMPALEO)
 #explist="MIROC5-rcp85-Rmed_01"
 
+# labs list
+declare -a labs=(JPL)
+# models list
+declare -a models=(ISSM)
+explist="MIROC5-rcp85-Rmed_01"
+
 ## labs list
 #declare -a labs=(LSCE)
 ## models list
 #declare -a models=(GRISLI)
 #explist="exp05_05"
 
-# labs list
-declare -a labs=(MUN MUN)
-# models list
-declare -a models=(GSM2501 GSM2511)
-explist="exp05"
+## labs list
+#declare -a labs=(MUN MUN)
+## models list
+#declare -a models=(GSM2501 GSM2511)
+# specify with suffix even if missing on server. Set flg_resadd instead
+#explist="exp05_05"
+#flg_resadd=true # for models that do not have res suffix
+
+## labs list
+#declare -a labs=(ILTS_PIK ILTS_PIK)
+## models list
+#declare -a models=(SICOPOLIS2 SICOPOLIS3)
+#explist="exp05_05"
 
 ## labs list
 #declare -a labs=(JPL)
@@ -60,9 +82,6 @@ explist="exp05"
 #explist="exp05_01"
 
 
-# strip resolution suffix
-flg_strip=true
-#flg_strip=false # for models that do not have res suffix: MUN
 
 # variables
 #vars="sftgrf"
@@ -80,13 +99,14 @@ fi
 
 ##### 
 echo "------------------"
-echo  Download files for all exps
+echo  Downloading files 
 echo "------------------"
 
 # loop trough labs/models
 counter=0
 while [ $counter -lt ${count} ]; do
 
+    echo ${labs[$counter]}
     ## find experiments
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d `
     #echo ${dexps}
@@ -103,23 +123,27 @@ while [ $counter -lt ${count} ]; do
 
 	mkdir -p ${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}/
 	cd ${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}/
+	
+	# strip resolution suffix from exp
+	exp=${exp_res%???}
+
+	# exname is directory on server
+	if [ "$flg_resadd" = true ]; then
+	    expname=${exp}
+	else
+	    expname=${exp_res}
+	fi
 	#   # loop trough vars
 	for var in ${vars}; do
 
-	    # strip resolution suffix from exp
-	    if [ "$flg_strip" = true ]; then
-		exp=${exp_res%???}
-	    else
-		exp=${exp_res}
-	    fi
 	    # this is the target name, but the file on the ftp may be different
-	    anc=${var}_GIS_${labs[$counter]}_${models[$counter]}\*_${exp}.nc
+	    anc=${var}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 
-	    echo ${afile}
+	    echo ${anc}
 
 	    # ftp transaction; Allow generous interpretation of filename
 	    # as long the the varname is correct
-	    scp -i ~/.ssh/id_rsa_ghub ${HOST}:${RPATH}/${labs[$counter]}/${models[$counter]}/${exp_res}/${var}_*.nc ${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}/
+	    scp -i ~/.ssh/id_rsa_ghub ${HOST}:${RPATH}/${labs[$counter]}/${models[$counter]}/${expname}/${var}_*.nc ${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}/${anc}
 
 	    
 	done
