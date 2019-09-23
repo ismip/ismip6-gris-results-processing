@@ -4,8 +4,8 @@
 set -x
 
 # location of Archive
-outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
-#outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
+#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
+outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
 
 #declare -a labs=(AWI)

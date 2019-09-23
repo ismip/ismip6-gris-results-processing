@@ -9,8 +9,8 @@ set -x
 #set -e
 
 # Path to mask data
-datapath=/Volumes/ISMIP6/ISMIP6-Greenland/Data
-#datapath=/home/hgoelzer/Projects/ISMIP6/Data
+#datapath=/Volumes/ISMIP6/ISMIP6-Greenland/Data
+datapath=/home/hgoelzer/Projects/ISMIP6/Data
 
 # Resolution
 ares=05
