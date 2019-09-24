@@ -6,14 +6,19 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 
 ## labs list
-#declare -a labs=(AWI AWI AWI)
+#declare -a labs=(AWI)
+##declare -a labs=(AWI AWI AWI)
 ## models list
-#declare -a models=(ISSM1 ISSM2 ISSM3)
+#declare -a models=(ISSM1)
+##declare -a models=(ISSM1 ISSM2 ISSM3)
 ## res
 #res=01
 ## exp mapping 
-#declare -a inexps=(historical MIROC5-rcp85_Rmed NorESM1-rcp85_Rmed MIROC5-rcp26_Rmed HadGEM2-ES-rcp85_Rmed MIROC5-rcp85_Rhigh MIROC5-rcp85_Rlow)
-#declare -a outexps=(hist exp05 exp06 exp07 exp08 exp09 exp10)
+#declare -a inexps=(MIROC5-rcp85_Rmed)
+#declare -a outexps=(exp05)
+##declare -a inexps=(historical MIROC5-rcp85_Rmed NorESM1-rcp85_Rmed MIROC5-rcp26_Rmed HadGEM2-ES-rcp85_Rmed MIROC5-rcp85_Rhigh MIROC5-rcp85_Rlow)
+##declare -a outexps=(hist exp05 exp06 exp07 exp08 exp09 exp10)
+
 
 ## labs list
 #declare -a labs=(MUN MUN)
@@ -59,17 +64,17 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 #declare -a inexps=(MIROC5-rcp85-Rmed)
 #declare -a outexps=(exp05)
 
-# labs list
-declare -a labs=(VUB)
-# models list
-declare -a models=(GISMSIAv1)
-# res
-res=05
-# exp mapping 
-#declare -a inexps=(historical MIROC5-rcp85-Rmed)
-#declare -a outexps=(hist exp05)
-declare -a inexps=(MIROC5-rcp85_Rmed)
-declare -a outexps=(exp05)
+## labs list
+#declare -a labs=(VUB)
+## models list
+#declare -a models=(GISMSIAv1)
+## res
+#res=05
+## exp mapping 
+##declare -a inexps=(historical MIROC5-rcp85-Rmed)
+##declare -a outexps=(hist exp05)
+#declare -a inexps=(MIROC5-rcp85_Rmed)
+#declare -a outexps=(exp05)
 
 
 # variables

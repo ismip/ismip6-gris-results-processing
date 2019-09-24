@@ -24,53 +24,12 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 
 
-### labs list
-#declare -a labs=(VUB)
-## models list
-#declare -a models=(GISMSIAv1)
-
-### labs list
-#declare -a labs=(IMAU)
-## models list
-#declare -a models=(IMAUICE1)
-
 ## labs list
-#declare -a labs=(JPL JPL)
+#declare -a labs=(AWI)
 ## models list
-#declare -a models=(ISSM ISSMPALEO)
-#explist="MIROC5-rcp85-Rmed_01"
+#declare -a models=(ISSM1)
+#explist="MIROC5-rcp85_Rmed_01"
 
-## labs list
-#declare -a labs=(JPL)
-## models list
-#declare -a models=(ISSM)
-#explist="MIROC5-rcp85-Rmed_01"
-
-## labs list
-#declare -a labs=(LSCE)
-## models list
-#declare -a models=(GRISLI)
-#explist="exp05_05"
-
-## labs list
-#declare -a labs=(MUN MUN)
-## models list
-#declare -a models=(GSM2501 GSM2511)
-# specify with suffix even if missing on server. Set flg_resadd instead
-#explist="exp05_05"
-#flg_resadd=true # for models that do not have res suffix
-
-# labs list
-declare -a labs=(ILTS_PIK ILTS_PIK)
-# models list
-declare -a models=(SICOPOLIS2 SICOPOLIS3)
-explist="exp05_05"
-
-## labs list
-#declare -a labs=(JPL)
-## models list
-#declare -a models=(ISSM)
-#explist="MIROC5-rcp85-Rmed_01"
 
 ## labs list
 #declare -a labs=(GSFC)
@@ -78,11 +37,55 @@ explist="exp05_05"
 #declare -a models=(ISSM)
 #explist="exp05_01"
 
+
 ## labs list
-#declare -a labs=(UCIJPL)
+#declare -a labs=(ILTS_PIK ILTS_PIK)
 ## models list
-#declare -a models=(ISSM1)
-#explist="exp05_01"
+#declare -a models=(SICOPOLIS2 SICOPOLIS3)
+#explist="exp05_05"
+
+
+### labs list
+#declare -a labs=(IMAU)
+## models list
+#declare -a models=(IMAUICE1)
+#explist="exp05_16"
+
+
+## labs list
+#declare -a labs=(JPL JPL)
+## models list
+#declare -a models=(ISSM ISSMPALEO)
+#explist="MIROC5-rcp85-Rmed_01"
+
+
+## labs list
+#declare -a labs=(LSCE)
+## models list
+#declare -a models=(GRISLI)
+#explist="exp05_05"
+
+
+## labs list
+#declare -a labs=(MUN MUN)
+## models list
+#declare -a models=(GSM2501 GSM2511)
+## specify with suffix even if missing on server. Set flg_resadd instead
+#explist="exp05_05"
+#flg_resadd=true # for models that do not have res suffix
+
+
+# labs list
+declare -a labs=(UCIJPL)
+# models list
+declare -a models=(ISSM1)
+explist="exp05_01"
+
+### labs list
+#declare -a labs=(VUB)
+## models list
+#declare -a models=(GISMSIAv1)
+
 
 
 
