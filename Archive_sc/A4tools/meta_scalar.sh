@@ -14,34 +14,17 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 #declare -a labs=(AWI)
 #declare -a models=(ISSM2)
 
-## labs/models lists
-#declare -a labs=(ILTS_PIK)
-#declare -a models=(SICOPOLIS2)
-
-# labs/models lists
-#declare -a labs=(MUN)
-#declare -a models=(GSM2371)
-
 # labs/models lists
 #declare -a labs=(UCIJPL)
 #declare -a models=(ISSM)
 
 # labs/models lists
-#declare -a labs=(VUB)
-#declare -a models=(GISMSIAv1)
-
-# labs/models lists
-#declare -a labs=(LSCE)
-#declare -a models=(GRISLI)
-
-# labs/models lists
-#declare -a labs=(AWI AWI AWI ILTS_PIK ILTS_PIK IMAU JPL JPL)
-#declare -a models=(ISSM1 ISSM2 ISSM3 SICOPOLIS2 SICOPOLIS3 IMAUICE1 ISSM ISSMPALEO)
-
-# labs/models lists
 declare -a labs=(JPL)
 declare -a models=(ISSM)
 
+# labs/models lists
+#declare -a labs=(AWI AWI AWI JPL JPL)
+#declare -a models=(ISSM1 ISSM2 ISSM3 ISSM ISSMPALEO)
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -64,9 +47,8 @@ while [ $counter -lt ${count} ]; do
     # set exps manually
     #exps_res=asmb_${ares}
     #exps_res="ctrl_${ares} hist_${ares}"
-    #exps_res="exp${ares}_${ares}"
+    exps_res="exp${ares}_${ares}"
     #exps_res="hist_${ares}"
-    exps_res="MIROC5-rcp85-Rmed_${ares}"
     
     # find experiments
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
@@ -97,8 +79,7 @@ while [ $counter -lt ${count} ]; do
 	ncks -A -v sftgrf ${anc} model.nc
 
 	### scalar calculations; expect model input in model.nc
-	#./scalars_opt.sh
-	./scalars_basin.sh
+	./scalars_basin_hires.sh
 
 	### move output ./scalars_??_${ares}.nc to Archive
 	/bin/mv ./scalars_mm_${ares}.nc ${apath}/scalars_mm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc

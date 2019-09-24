@@ -28,12 +28,16 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 #declare -a models=(GISMSIAv1)
 
 # labs/models lists
-declare -a labs=(LSCE)
-declare -a models=(GRISLI)
+#declare -a labs=(LSCE)
+#declare -a models=(GRISLI)
 
 # labs/models lists
 #declare -a labs=(AWI AWI AWI ILTS_PIK ILTS_PIK IMAU JPL JPL)
 #declare -a models=(ISSM1 ISSM2 ISSM3 SICOPOLIS2 SICOPOLIS3 IMAUICE1 ISSM ISSMPALEO)
+
+# labs/models lists
+declare -a labs=(GSFC  ILTS_PIK ILTS_PIK  JPL JPL  LSCE  MUN MUN  UCIJPL)
+declare -a models=(ISSM SICOPOLIS2 SICOPOLIS3 ISSM ISSMPALEO GRISLI GSM2501 GSM2511 ISSM)
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -53,6 +57,11 @@ counter=0
 while [ $counter -lt ${count} ]; do
 
     echo ${labs[$counter]} ${models[$counter]}
+
+    proc=${labs[$counter]}_${models[$counter]}
+    mkdir -p ${proc}
+    cd ${proc}
+
     # set exps manually
     #exps_res=asmb_05
     #exps_res="ctrl_05 hist_05"
