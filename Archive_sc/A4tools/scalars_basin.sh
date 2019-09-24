@@ -13,8 +13,8 @@ set -x
 datapath=/home/hgoelzer/Projects/ISMIP6/Data
 
 # Resolution
-ares=05
-#ares=01
+#ares=05
+ares=01
 
 # What output to process
 flg_mm=false # Model mask
@@ -64,7 +64,8 @@ ncks -O -v x,y ${af2file} tmp.nc
 ncap2 -A -s 'rhoi=916.7; rhow=1027.0; rhof=1000.0; oarea=3.625e14' -v tmp.nc params.nc
 # Resolution
 ncap2 -A -s 'dx=x(2)-x(1); dy=y(2)-y(1)' -v tmp.nc params.nc
-ncks -C -O -x -v x,y params.nc params.nc
+# make netcdf4 format and remove unused
+ncks -4 -C -O -x -v x,y params.nc params.nc
 nc_clean.sh params.nc
 /bin/rm tmp.nc
 
@@ -75,9 +76,15 @@ ncks -A -v sftflf ${bminput} ${bmfile}
 ncrename -v sftgif,sftgif_BM ${bmfile}
 ncrename -v sftgrf,sftgrf_BM ${bmfile}
 ncrename -v sftflf,sftflf_BM ${bmfile}
+# make netcdf4 format 
+nccopy -d1 ${bmfile} c4_${bmfile}
+/bin/mv c4_${bmfile}  ${bmfile}
 
 # Prepare GIC masks; deselect level 0 and 1 glaciers
-ncap2 -O -s 'gicm=GIC==0' -v ${piinput} ${pifile} 
+ncap2 -4 -O -s 'gicm=GIC==0' -v ${piinput} ${pifile} 
+# make netcdf4 format 
+#nccopy -d1 ${imbfile} c4_${pifile} 
+#/bin/mv c4_${pifile}  ${pifile} 
 
 # Prepare IMBIE2 masks, IDs: From NO clockwise
 ncap2 -O -s 'no=IDs==1' -v ${imbinput} ${imbfile} 
@@ -86,7 +93,9 @@ ncap2 -A -s 'se=IDs==3' -v ${imbinput} ${imbfile}
 ncap2 -A -s 'sw=IDs==4' -v ${imbinput} ${imbfile} 
 ncap2 -A -s 'cw=IDs==5' -v ${imbinput} ${imbfile} 
 ncap2 -A -s 'nw=IDs==6' -v ${imbinput} ${imbfile} 
-
+# make netcdf4 format 
+nccopy -d1 ${imbfile} c4_${imbfile}
+/bin/mv c4_${imbfile} ${imbfile}
 
 # Make master netcdf file 
 ncks -O -v sftgif ${infile} tmp_mod.nc
@@ -204,7 +213,7 @@ for basin in no ne se sw cw nw; do
 ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; af=af>>0" tmp.nc tmpaf.nc
 ncap2 -O -s "ivaf_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
 ncks -A -v ivaf_${basin} tmpsc.nc ${scfile_imb}
-/bin/rm tmpaf.nc tmpsc.nc 
+#/bin/rm tmpaf.nc tmpsc.nc 
 
 # Ice mass above flotation
 ncap2 -A -s "limaf_${basin}=ivaf_${basin}*rhoi" ${scfile_imb} ${scfile_imb} 
@@ -212,7 +221,7 @@ ncap2 -A -s "limaf_${basin}=ivaf_${basin}*rhoi" ${scfile_imb} ${scfile_imb}
 ncap2 -A -s "sle_${basin}=ivaf_${basin}*rhoi/oarea/rhof" ${scfile_imb} ${scfile_imb} 
 
 done
-/bin/rm tmp.nc 
+#/bin/rm tmp.nc 
 
 nc_clean.sh ${scfile_imb}
 
@@ -362,7 +371,7 @@ ncap2 -A -s 'thif=-(rhow/rhoi)*topg; thif=thif>>0' tmp_mod.nc tmp.nc
 ncap2 -O -s 'af=(lithk-thif)*sftgif*sftgif_BM*gicm*maxmask1*af2; af=af>>0' tmp.nc tmpaf.nc
 ncap2 -O -s 'ivaf_noGIC=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
 ncks -A -v ivaf_noGIC tmpsc.nc ${scfile_ng}
-/bin/rm tmp.nc tmpaf.nc tmpsc.nc 
+#/bin/rm tmp.nc tmpaf.nc tmpsc.nc 
 
 ncap2 -A -s "lim_noGIC=ivol_noGIC*rhoi" ${scfile_ng} ${scfile_ng} 
 ncap2 -A -s "limgr_noGIC=ivolgr_noGIC*rhoi" ${scfile_ng} ${scfile_ng} 
@@ -379,5 +388,5 @@ fi
 ##################################################################################
 
 # Clean up
-/bin/rm tmp_mod.nc 
+#/bin/rm tmp_mod.nc 
 
