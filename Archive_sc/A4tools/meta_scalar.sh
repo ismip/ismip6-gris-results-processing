@@ -57,6 +57,11 @@ counter=0
 while [ $counter -lt ${count} ]; do
 
     echo ${labs[$counter]} ${models[$counter]}
+
+    proc=${labs[$counter]}_${models[$counter]}
+    mkdir -p ${proc}
+    cd ${proc}
+
     # set exps manually
     #exps_res=asmb_05
     #exps_res="ctrl_05 hist_05"
