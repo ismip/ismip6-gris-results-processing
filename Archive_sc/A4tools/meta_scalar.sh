@@ -3,13 +3,10 @@
 
 set -x
 
-ares=01
-
 # location of Archive
-#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_${ares}/Data
-#outp=/home/hgoelzer/Projects/ISMIP6/Archive_${ares}/Data
+#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
+outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
-outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 
 #declare -a labs=(AWI)
 #declare -a models=(ISSM2)
@@ -39,9 +36,8 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 #declare -a models=(ISSM1 ISSM2 ISSM3 SICOPOLIS2 SICOPOLIS3 IMAUICE1 ISSM ISSMPALEO)
 
 # labs/models lists
-declare -a labs=(JPL)
-declare -a models=(ISSM)
-
+declare -a labs=(GSFC  ILTS_PIK ILTS_PIK  JPL JPL  LSCE  MUN MUN  UCIJPL)
+declare -a models=(ISSM SICOPOLIS2 SICOPOLIS3 ISSM ISSMPALEO GRISLI GSM2501 GSM2511 ISSM)
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -62,15 +58,14 @@ while [ $counter -lt ${count} ]; do
 
     echo ${labs[$counter]} ${models[$counter]}
     # set exps manually
-    #exps_res=asmb_${ares}
-    #exps_res="ctrl_${ares} hist_${ares}"
-    #exps_res="exp${ares}_${ares}"
-    #exps_res="hist_${ares}"
-    exps_res="MIROC5-rcp85-Rmed_${ares}"
+    #exps_res=asmb_05
+    #exps_res="ctrl_05 hist_05"
+    exps_res="exp05_05"
+    #exps_res="hist_05"
     
     # find experiments
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
-    #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_${ares}`
+    #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
     #exps_res=`basename -a ${dexps}`
 
     echo "###"
@@ -100,11 +95,11 @@ while [ $counter -lt ${count} ]; do
 	#./scalars_opt.sh
 	./scalars_basin.sh
 
-	### move output ./scalars_??_${ares}.nc to Archive
-	/bin/mv ./scalars_mm_${ares}.nc ${apath}/scalars_mm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	/bin/mv ./scalars_bm_${ares}.nc ${apath}/scalars_bm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	/bin/mv ./scalars_ng_${ares}.nc ${apath}/scalars_ng_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	/bin/mv ./scalars_mm_imb_${ares}.nc ${apath}/scalars_mm_imb_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	### move output ./scalars_??_05.nc to Archive
+	/bin/mv ./scalars_mm_05.nc ${apath}/scalars_mm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	/bin/mv ./scalars_bm_05.nc ${apath}/scalars_bm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	/bin/mv ./scalars_ng_05.nc ${apath}/scalars_ng_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	/bin/mv ./scalars_mm_imb_05.nc ${apath}/scalars_mm_imb_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	#/bin/rm model.nc
     done
     # end exp loop
