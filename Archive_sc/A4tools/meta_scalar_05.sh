@@ -11,13 +11,19 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 # Destination for scalar files
 outpsc=/home/hgoelzer/Projects/ISMIP6/Archive_sc/Data
 
+## Settings
+# Remove GIC contribution? 
+flg_GICmask=true # [Default true!]
+# Remove ice outside observed ice mask (can be combined with GIC masking) 
+flg_OBSmask=false # [Default false!]
+
 
 #declare -a labs=(AWI)
 #declare -a models=(ISSM1)
 
 # labs/models lists
-#declare -a labs=(ILTS_PIK)
-#declare -a models=(SICOPOLIS2)
+declare -a labs=(ILTS_PIK)
+declare -a models=(SICOPOLIS2)
 
 # labs/models lists
 #declare -a labs=(MUN)
@@ -102,9 +108,23 @@ while [ $counter -lt ${count} ]; do
 
 	### scalar calculations; expect model input in model.nc
 	#./scalars_opt.sh
-	../scalars_basin_05.sh
+	../scalars_basin_05.sh $flg_GICmask $flg_OBSmask
 
-	destpath=${outpsc}/${labs[$counter]}/${models[$counter]}/${exp_res}
+	# Make settings specific output paths
+	prefix=SC
+	# Remove GIC contribution? 
+	if $flg_GICmask; then
+	    prefix=${prefix}_GIC1
+	else
+	    prefix=${prefix}_GIC0
+	fi
+	# Mask to observed?
+	if $flg_OBSmask; then
+	    prefix=${prefix}_OBS1
+	else
+	    prefix=${prefix}_OBS0
+	fi
+	destpath=${outpsc}/${prefix}/${labs[$counter]}/${models[$counter]}/${exp_res}
 	mkdir -p ${destpath}
 	### move output ./scalars_??_05.nc to Archive
 	[ -f ./scalars_mm_05.nc ] && /bin/mv ./scalars_mm_05.nc ${destpath}/scalars_mm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc

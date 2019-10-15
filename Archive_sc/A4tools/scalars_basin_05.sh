@@ -5,6 +5,11 @@
 # Scalars
 # multiply with masks, multiply with area factors integrate spatially
 
+if [[ $# -ne 2 ]]; then
+    echo "Illegal number of parameters. Need 2 to specify masking for GIC and OBS"
+    exit 2
+fi
+
 set -x
 set -e
 
@@ -17,15 +22,17 @@ ares=05
 #ares=01
 
 ## What output to process
-flg_mm=false  # Integrals on model mask
-flg_rm=false  # IMBIE2-Rignot basins
+flg_mm=true  # Integrals on model mask
+flg_rm=true  # IMBIE2-Rignot basins
 flg_zm=true  # IMBIE2-Zwally basins
 
 ## What masking to apply If true, applied to all output
 # Remove GIC contribution? 
-flg_GICmask=true # [Default true!]
+#flg_GICmask=true # [Default true!]
+flg_GICmask=${1} # [Default true!]
 # Remove ice outside observed ice mask (can be combined with GIC masking) 
-flg_OBSmask=false # [Default false!]
+#flg_OBSmask=true # [Default false!]
+flg_OBSmask=${2} # [Default false!]
 
 # area factors
 af2input=$datapath/af2_ISMIP6_GrIS_${ares}000m.nc
@@ -55,6 +62,7 @@ gicfile=masksGIC.nc
 
 # Model data
 infile=./model.nc
+maskfile=icemasks.nc
 # shelf sftflf
 # grounded ice sftgrf
 # ice sftgif
@@ -128,14 +136,25 @@ if $flg_GICmask; then
     ncap2 -O -s "af2 = af2*iaf2" ${af2file} ${af2file}
 fi
 
+# Prepare ice masks
+ncks -O -v sftgif ${infile} ${maskfile}
+ncks -A -v sftgrf ${infile} ${maskfile}
+ncks -A -v sftflf ${infile} ${maskfile}
+# inlcude OBS masking if requested
+if $flg_OBSmask; then
+    ncks -A -v sftgif_BM ${obsfile} ${maskfile}
+    ncks -A -v sftgrf_BM ${obsfile} ${maskfile}
+    ncks -A -v sftflf_BM ${obsfile} ${maskfile}
+    ncap2 -A -s "sftgif = sftgif*sftgif_BM" ${maskfile} ${maskfile}
+    ncap2 -A -s "sftgrf = sftgrf*sftgrf_BM" ${maskfile} ${maskfile}
+    ncap2 -A -s "sftflf = sftflf*sftflf_BM" ${maskfile} ${maskfile}
+fi
+
 # Make master netcdf file 
-ncks -O -v sftgif ${infile} tmp_mod.nc
-ncks -A -v sftgrf ${infile} tmp_mod.nc
-ncks -A -v sftflf ${infile} tmp_mod.nc
+ncks -O -v sftgif ${maskfile} tmp_mod.nc
+ncks -A -v sftgrf ${maskfile} tmp_mod.nc
+ncks -A -v sftflf ${maskfile} tmp_mod.nc
 ncks -A -v maxmask1 ${emfile} tmp_mod.nc
-ncks -A -v sftgif_BM ${obsfile} tmp_mod.nc
-ncks -A -v sftgrf_BM ${obsfile} tmp_mod.nc
-ncks -A -v sftflf_BM ${obsfile} tmp_mod.nc
 ncks -A  ${rigfile} tmp_mod.nc
 ncks -A  ${zwafile} tmp_mod.nc
 ncks -A -v af2 ${af2file} tmp_mod.nc
@@ -233,7 +252,7 @@ if $flg_rm; then
 # Make dummy containers for scalar output
 ncks -O params.nc ${scfile_rm}
 
-# Volume above flotation IMBIE2
+# Volume above flotation
 # sftgif
 ncks -A params.nc tmp.nc
 # thickness at flotation
@@ -266,7 +285,7 @@ if $flg_zm; then
 # Make dummy containers for scalar output
 ncks -O params.nc ${scfile_zm}
 
-# Volume above flotation IMBIE2 Zwally
+# Volume above flotation 
 # sftgif
 ncks -A params.nc tmp.nc
 # thickness at flotation
