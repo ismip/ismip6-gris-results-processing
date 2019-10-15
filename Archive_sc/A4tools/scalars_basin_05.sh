@@ -6,7 +6,7 @@
 # multiply with masks, multiply with area factors integrate spatially
 
 set -x
-#set -e
+set -e
 
 # Path to mask data
 #datapath=/Volumes/ISMIP6/ISMIP6-Greenland/Data
@@ -16,28 +16,42 @@ datapath=/home/hgoelzer/Projects/ISMIP6/Data
 ares=05
 #ares=01
 
-# What output to process
-flg_mm=false # Model mask
-flg_imb=true # IMBIE2 basins
-flg_bm=false # BM3 mask
-flg_ng=false # BM3 + GIC mask
+## What output to process
+flg_mm=false  # Integrals on model mask
+flg_rm=false  # IMBIE2-Rignot basins
+flg_zm=true  # IMBIE2-Zwally basins
+
+## What masking to apply If true, applied to all output
+# Remove GIC contribution? 
+flg_GICmask=true # [Default true!]
+# Remove ice outside observed ice mask (can be combined with GIC masking) 
+flg_OBSmask=false # [Default false!]
 
 # area factors
-af2file=$datapath/af2_ISMIP6_GrIS_${ares}000m.nc
+af2input=$datapath/af2_ISMIP6_GrIS_${ares}000m.nc
+af2file=af2.nc
 # af2
+
 # Ellesmere mask
 emfile=$datapath/maxmask1_${ares}000m.nc
 # maxmask1
-# PROMICE Mask
-piinput=$datapath/CitteroMask_e${ares}000m.nc
-pifile=maskPI.nc
-# GIC
-# BM3 for masks
-bminput=$datapath/BM3_GrIS_nn_e${ares}000m.nc
-bmfile=masksBM.nc
-# IMBIE2 extended masks
-imbinput=$datapath/ISMIP6_IMBIE2_Extensions_${ares}000m.nc
-imbfile=masksIMB.nc
+
+# BM3 for observed masks
+obsinput=$datapath/BM3_GrIS_nn_e${ares}000m.nc
+obsfile=masksOBS.nc
+
+# IMBIE2 Rignot extended masks
+riginput=$datapath/GrIS_Basins_Rignot_extended_e${ares}000m_v1.nc
+rigfile=masksRIG.nc
+
+# IMBIE2 Zwally extended masks
+zwainput=$datapath/GrIS_Basins_Zwally_extended_e${ares}000m_v1.nc
+zwafile=masksZWA.nc
+
+# GIC area factors
+gicinput=$datapath/rgi60_connect01_iaf2_${ares}000m_v1.nc
+gicfile=masksGIC.nc
+# iaf2
 
 # Model data
 infile=./model.nc
@@ -50,15 +64,13 @@ infile=./model.nc
 # replace NaN in AWI files
 #ncatted -a _FillValue,lithk,o,f,NaN model.nc
 
-# output files
+# Possible output files
 scfile_mm=scalars_mm_${ares}.nc
-scfile_bm=scalars_bm_${ares}.nc
-scfile_ng=scalars_ng_${ares}.nc
-
-scfile_imb=scalars_mm_imb_${ares}.nc
+scfile_rm=scalars_rm_${ares}.nc
+scfile_zm=scalars_zm_${ares}.nc
 
 # Make a netcdf file with parameters
-ncks -O -v x,y ${af2file} tmp.nc
+ncks -O -v x,y ${af2input} tmp.nc
 # BM3 numbers for density, use Cogley (2012) for ocean area
 #ncap2 -A -s 'rhoi=916.7; rhow=1027.0; rhof=1000.0; oarea=3.618e14' -v tmp.nc params.nc
 ncap2 -A -s 'rhoi=916.7; rhow=1027.0; rhof=1000.0; oarea=3.625e14' -v tmp.nc params.nc
@@ -69,35 +81,63 @@ nc_clean.sh params.nc
 /bin/rm tmp.nc
 
 # prepare BM masks
-ncks -O -v sftgif ${bminput} ${bmfile} 
-ncks -A -v sftgrf ${bminput} ${bmfile}
-ncks -A -v sftflf ${bminput} ${bmfile}
-ncrename -v sftgif,sftgif_BM ${bmfile}
-ncrename -v sftgrf,sftgrf_BM ${bmfile}
-ncrename -v sftflf,sftflf_BM ${bmfile}
+ncks -O -v sftgif ${obsinput} ${obsfile} 
+ncks -A -v sftgrf ${obsinput} ${obsfile}
+ncks -A -v sftflf ${obsinput} ${obsfile}
+ncrename -v sftgif,sftgif_BM ${obsfile}
+ncrename -v sftgrf,sftgrf_BM ${obsfile}
+ncrename -v sftflf,sftflf_BM ${obsfile}
 
-# Prepare GIC masks; deselect level 0 and 1 glaciers
-ncap2 -O -s 'gicm=GIC==0' -v ${piinput} ${pifile} 
+# Prepare IMBIE2 Rignot masks, ID: From NO clockwise
+ncap2 -O -s 'no=ID==1' -v ${riginput} ${rigfile} 
+ncap2 -A -s 'ne=ID==2' -v ${riginput} ${rigfile} 
+ncap2 -A -s 'se=ID==3' -v ${riginput} ${rigfile} 
+ncap2 -A -s 'sw=ID==4' -v ${riginput} ${rigfile} 
+ncap2 -A -s 'cw=ID==5' -v ${riginput} ${rigfile} 
+ncap2 -A -s 'nw=ID==6' -v ${riginput} ${rigfile} 
 
-# Prepare IMBIE2 masks, IDs: From NO clockwise
-ncap2 -O -s 'no=IDs==1' -v ${imbinput} ${imbfile} 
-ncap2 -A -s 'ne=IDs==2' -v ${imbinput} ${imbfile} 
-ncap2 -A -s 'se=IDs==3' -v ${imbinput} ${imbfile} 
-ncap2 -A -s 'sw=IDs==4' -v ${imbinput} ${imbfile} 
-ncap2 -A -s 'cw=IDs==5' -v ${imbinput} ${imbfile} 
-ncap2 -A -s 'nw=IDs==6' -v ${imbinput} ${imbfile} 
+# Prepare IMBIE2 Zwally masks, IDs: From NO clockwise
+ncap2 -O -s 'z11=ID==1'  -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z12=ID==2'  -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z13=ID==3'  -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z14=ID==4'  -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z21=ID==5'  -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z22=ID==6'  -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z31=ID==7'  -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z32=ID==8'  -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z33=ID==9'  -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z41=ID==10' -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z42=ID==11' -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z43=ID==12' -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z50=ID==13' -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z61=ID==14' -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z62=ID==15' -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z71=ID==16' -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z72=ID==17' -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z81=ID==18' -v ${zwainput} ${zwafile} 
+ncap2 -A -s 'z82=ID==19' -v ${zwainput} ${zwafile} 
 
+# Prepare GIC masking file
+ncks -O -v iaf2 ${gicinput} ${gicfile}
+
+# Prepare area factors
+ncks -O -v af2 ${af2input} ${af2file}
+# inlcude GIC masking if requested
+if $flg_GICmask; then
+    ncks -A -v iaf2 ${gicfile} ${af2file}
+    ncap2 -O -s "af2 = af2*iaf2" ${af2file} ${af2file}
+fi
 
 # Make master netcdf file 
 ncks -O -v sftgif ${infile} tmp_mod.nc
 ncks -A -v sftgrf ${infile} tmp_mod.nc
 ncks -A -v sftflf ${infile} tmp_mod.nc
 ncks -A -v maxmask1 ${emfile} tmp_mod.nc
-ncks -A -v gicm ${pifile} tmp_mod.nc
-ncks -A -v sftgif_BM ${bmfile} tmp_mod.nc
-ncks -A -v sftgrf_BM ${bmfile} tmp_mod.nc
-ncks -A -v sftflf_BM ${bmfile} tmp_mod.nc
-ncks -A  ${imbfile} tmp_mod.nc
+ncks -A -v sftgif_BM ${obsfile} tmp_mod.nc
+ncks -A -v sftgrf_BM ${obsfile} tmp_mod.nc
+ncks -A -v sftflf_BM ${obsfile} tmp_mod.nc
+ncks -A  ${rigfile} tmp_mod.nc
+ncks -A  ${zwafile} tmp_mod.nc
 ncks -A -v af2 ${af2file} tmp_mod.nc
 ncks -A -v lithk ${infile} tmp_mod.nc
 ncks -A -v topg ${infile} tmp_mod.nc
@@ -105,7 +145,7 @@ ncks -A -v topg ${infile} tmp_mod.nc
 ncks -A params.nc tmp_mod.nc
 
 ##################################################################################
-# Model masking
+# Greenland wide integrals
 ##################################################################################
 
 if $flg_mm; then
@@ -186,12 +226,12 @@ nc_clean.sh ${scfile_mm}
 fi
 
 ##################################################################################
-# IMBIE2 basins 
+# IMBIE2 Rignot basins 
 ##################################################################################
-if $flg_imb; then
+if $flg_rm; then
 
 # Make dummy containers for scalar output
-ncks -O params.nc ${scfile_imb}
+ncks -O params.nc ${scfile_rm}
 
 # Volume above flotation IMBIE2
 # sftgif
@@ -203,180 +243,56 @@ for basin in no ne se sw cw nw; do
 # thickness above flotation 
 ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; af=af>>0" tmp.nc tmpaf.nc
 ncap2 -O -s "ivaf_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
-ncks -A -v ivaf_${basin} tmpsc.nc ${scfile_imb}
+ncks -A -v ivaf_${basin} tmpsc.nc ${scfile_rm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
 # Ice mass above flotation
-ncap2 -A -s "limaf_${basin}=ivaf_${basin}*rhoi" ${scfile_imb} ${scfile_imb} 
+ncap2 -A -s "limaf_${basin}=ivaf_${basin}*rhoi" ${scfile_rm} ${scfile_rm} 
 # SLE
-ncap2 -A -s "sle_${basin}=ivaf_${basin}*rhoi/oarea/rhof" ${scfile_imb} ${scfile_imb} 
+ncap2 -A -s "sle_${basin}=ivaf_${basin}*rhoi/oarea/rhof" ${scfile_rm} ${scfile_rm} 
 
 done
 /bin/rm tmp.nc 
 
-nc_clean.sh ${scfile_imb}
+nc_clean.sh ${scfile_rm}
 
 fi
+
 ##################################################################################
-# BM masking
+# IMBIE2 Zwally basins 
 ##################################################################################
-if $flg_bm; then
+if $flg_zm; then
 
 # Make dummy containers for scalar output
-ncks -O params.nc ${scfile_bm}
+ncks -O params.nc ${scfile_zm}
 
-# Ice area on BM mask
-# sftgif
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=sftgif*sftgif_BM*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'iarea_BM=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v iarea_BM tmpsc.nc ${scfile_bm}
-/bin/rm tmpaf.nc tmpsc.nc
-
-# Grounded ice area BM masked
-# sftgrf
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=sftgrf*sftgrf_BM*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'iareagr_BM=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v iareagr_BM tmpsc.nc ${scfile_bm}
-/bin/rm tmpaf.nc tmpsc.nc 
-
-# Floating ice area BM masked
-# sftflf
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=sftflf*sftflf_BM*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'iareafl_BM=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v iareafl_BM tmpsc.nc ${scfile_bm}
-/bin/rm tmpaf.nc tmpsc.nc 
-
-# Ice vol BM mask
-# sftgif
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=lithk*sftgif*sftgif_BM*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'ivol_BM=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v ivol_BM tmpsc.nc ${scfile_bm}
-/bin/rm tmpaf.nc tmpsc.nc
-
-# Grounded ice vol BM mask
-# sftgrf
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=lithk*sftgrf*sftgrf_BM*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'ivolgr_BM=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v ivolgr_BM tmpsc.nc ${scfile_bm}
-/bin/rm tmpaf.nc tmpsc.nc 
-
-# Floating ice vol BM mask
-# sftflf
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=lithk*sftflf*sftflf_BM*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'ivolfl_BM=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v ivolfl_BM tmpsc.nc ${scfile_bm}
-/bin/rm tmpaf.nc tmpsc.nc 
-
-# Volume above flotation BM mask
+# Volume above flotation IMBIE2 Zwally
 # sftgif
 ncks -A params.nc tmp.nc
 # thickness at flotation
-ncap2 -A -s 'thif=-(rhow/rhoi)*topg; thif=thif>>0' tmp_mod.nc tmp.nc
-# thickness above flotation
-ncap2 -O -s 'af=(lithk-thif)*sftgif*sftgif_BM*maxmask1*af2; af=af>>0' tmp.nc tmpaf.nc
-ncap2 -O -s 'ivaf_BM=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v ivaf_BM tmpsc.nc ${scfile_bm}
-/bin/rm tmp.nc tmpaf.nc tmpsc.nc 
+ncap2 -A -s "thif=-(rhow/rhoi)*topg; thif=thif>>0" tmp_mod.nc tmp.nc
 
-# Ice mass lim
-ncap2 -A -s "lim_BM=ivol_BM*rhoi" ${scfile_bm} ${scfile_bm} 
-ncap2 -A -s "limgr_BM=ivolgr_BM*rhoi" ${scfile_bm} ${scfile_bm} 
-ncap2 -A -s "limfl_BM=ivolfl_BM*rhoi" ${scfile_bm} ${scfile_bm} 
+for basin in z11 z12 z13 z14 z21 z22 z31 z32 z33 z41 z42 z43 z50 z61 z62 z71 z72 z81 z82 ; do
+# thickness above flotation 
+ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; af=af>>0" tmp.nc tmpaf.nc
+ncap2 -O -s "ivaf_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
+ncks -A -v ivaf_${basin} tmpsc.nc ${scfile_zm}
+/bin/rm tmpaf.nc tmpsc.nc 
 
 # Ice mass above flotation
-ncap2 -A -s "limaf_BM=ivaf_BM*rhoi" ${scfile_bm} ${scfile_bm} 
+ncap2 -A -s "limaf_${basin}=ivaf_${basin}*rhoi" ${scfile_zm} ${scfile_zm} 
 # SLE
-ncap2 -A -s "sle_BM=ivaf_BM*rhoi/oarea/rhof" ${scfile_bm} ${scfile_bm} 
+ncap2 -A -s "sle_${basin}=ivaf_${basin}*rhoi/oarea/rhof" ${scfile_zm} ${scfile_zm} 
 
-nc_clean.sh ${scfile_bm}
+done
+/bin/rm tmp.nc 
+
+nc_clean.sh ${scfile_zm}
 
 fi
+
 ##################################################################################
-# no GIC masking
-##################################################################################
-if $flg_ng; then
 
-# Make dummy containers for scalar output
-ncks -O params.nc ${scfile_ng}
-
-# Ice area without PROMICE GIC
-# sftgif
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=sftgif*sftgif_BM*maxmask1*af2*gicm' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'iarea_noGIC=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v iarea_noGIC tmpsc.nc ${scfile_ng}
-/bin/rm tmpaf.nc tmpsc.nc
-
-# Grounded ice area without PROMICE GIC
-# sftgrf
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=sftgrf*sftgrf_BM*maxmask1*af2*gicm' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'iareagr_noGIC=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v iareagr_noGIC tmpsc.nc ${scfile_ng}
-/bin/rm tmpaf.nc tmpsc.nc 
-
-# Floating ice area without PROMICE GIC
-# sftflf
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=sftflf*sftflf_BM*maxmask1*af2*gicm' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'iareafl_noGIC=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v iareafl_noGIC tmpsc.nc ${scfile_ng}
-/bin/rm tmpaf.nc tmpsc.nc 
-
-# Ice vol without PROMICE GIC
-# sftgif
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=lithk*sftgif*sftgif_BM*maxmask1*af2*gicm' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'ivol_noGIC=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v ivol_noGIC tmpsc.nc ${scfile_ng}
-/bin/rm tmpaf.nc tmpsc.nc
-
-# Grounded ice vol without PROMICE GIC
-# sftgrf
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=lithk*sftgrf*sftgrf_BM*maxmask1*af2*gicm' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'ivolgr_noGIC=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v ivolgr_noGIC tmpsc.nc ${scfile_ng}
-/bin/rm tmpaf.nc tmpsc.nc 
-
-# Floating ice vol without PROMICE GIC
-# sftflf
-/bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=lithk*sftflf*sftflf_BM*maxmask1*af2*gicm' -v tmp_mod.nc tmpaf.nc
-ncap2 -O -s 'ivolfl_noGIC=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v ivolfl_noGIC tmpsc.nc ${scfile_ng}
-/bin/rm tmpaf.nc tmpsc.nc 
-
-# Volume above flotation without PROMICE GIC
-# sftgif
-ncks -A params.nc tmp.nc
-# thickness at flotation
-ncap2 -A -s 'thif=-(rhow/rhoi)*topg; thif=thif>>0' tmp_mod.nc tmp.nc
-# thickness above flotation
-ncap2 -O -s 'af=(lithk-thif)*sftgif*sftgif_BM*gicm*maxmask1*af2; af=af>>0' tmp.nc tmpaf.nc
-ncap2 -O -s 'ivaf_noGIC=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v ivaf_noGIC tmpsc.nc ${scfile_ng}
-/bin/rm tmp.nc tmpaf.nc tmpsc.nc 
-
-ncap2 -A -s "lim_noGIC=ivol_noGIC*rhoi" ${scfile_ng} ${scfile_ng} 
-ncap2 -A -s "limgr_noGIC=ivolgr_noGIC*rhoi" ${scfile_ng} ${scfile_ng} 
-ncap2 -A -s "limfl_noGIC=ivolfl_noGIC*rhoi" ${scfile_ng} ${scfile_ng} 
-
-# Ice mass above flotation
-ncap2 -A -s "limaf_noGIC=ivaf_noGIC*rhoi" ${scfile_ng} ${scfile_ng} 
-# SLE
-ncap2 -A -s "sle_noGIC=ivaf_noGIC*rhoi/oarea/rhof" ${scfile_ng} ${scfile_ng} 
-
-nc_clean.sh ${scfile_ng}
-
-fi
-##################################################################################
 
 # Clean up
 /bin/rm tmp_mod.nc 
