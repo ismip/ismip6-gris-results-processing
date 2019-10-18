@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -p short -n 24 -t 0:50:00
+#SBATCH -p normal -n 24 -t 0:50:00
 
 # For interactive use:
 # srun -t 10 -N 1 --pty bash -il
@@ -23,7 +23,7 @@ cd $scrpath
 ./meta_scalar.sh
 
 # clean up
-#/bin/rm $scrpath
+/bin/rm -rf $scrpath
 
 echo ''
 echo '  FINISHED '
