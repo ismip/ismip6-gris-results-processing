@@ -20,7 +20,7 @@ ncap2 -3 -A -s 'rhoi=910.; rhow=1000.; rhof=1000.' param_template.nc ${apar}
 /bin/cp ${apar} ${apar05} 
 
 alab=BGC
-amodel=BICICLES
+amodel=BISICLES
 apar=${outp}/${alab}/${amodel}/params.nc
 apar05=${outp05}/${alab}/${amodel}/params.nc
 mkdir -p `dirname ${apar}` `dirname ${apar05}` 
@@ -45,6 +45,12 @@ ncap2 -3 -A -s 'rhoi=917.; rhow=1023.; rhof=1000.' param_template.nc ${apar}
 
 alab=ILTS_PIK
 amodel=SICOPOLIS2
+apar=${outp}/${alab}/${amodel}/params.nc
+apar05=${outp05}/${alab}/${amodel}/params.nc
+mkdir -p `dirname ${apar}` `dirname ${apar05}` 
+ncap2 -3 -A -s 'rhoi=910.; rhow=1028.; rhof=1000.' param_template.nc ${apar} 
+/bin/cp ${apar} ${apar05} 
+amodel=SICOPOLIS3
 apar=${outp}/${alab}/${amodel}/params.nc
 apar05=${outp05}/${alab}/${amodel}/params.nc
 mkdir -p `dirname ${apar}` `dirname ${apar05}` 
@@ -112,7 +118,13 @@ ncap2 -3 -A -s 'rhoi=918; rhow=1028; rhof=1000.' param_template.nc ${apar}
 #/bin/cp ${apar} ${apar05} 
 
 alab=UAF
-amodel=PISM
+amodel=PISM1
+apar=${outp}/${alab}/${amodel}/params.nc
+apar05=${outp05}/${alab}/${amodel}/params.nc
+mkdir -p `dirname ${apar}` `dirname ${apar05}` 
+ncap2 -3 -A -s 'rhoi=910.; rhow=1028.; rhof=1000.' param_template.nc ${apar} 
+/bin/cp ${apar} ${apar05} 
+amodel=PISM2
 apar=${outp}/${alab}/${amodel}/params.nc
 apar05=${outp05}/${alab}/${amodel}/params.nc
 mkdir -p `dirname ${apar}` `dirname ${apar05}` 
