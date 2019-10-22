@@ -6,9 +6,9 @@
 
 meta_scalar.sh <br>
 meta_scalar_05.sh (same but specific for 5 km archive)<br>
-
+<br>
 calling <br>
-
+<br>
 scalars_basin.sh <br>
 
 # Main options in meta_scalar:
@@ -28,6 +28,15 @@ ares=05 # [Default 05]
 #flg_rm=true  # IMBIE2-Rignot basins
 #flg_zm=true  # IMBIE2-Zwally basins
 
+
+### Run in batch mode to exploit parallel architectures
+run_scalar_05_batch_cartesius.bash <br>
+<br>
+calling <br>
+<br>
+meta_scalar_05_batch.sh <br>
+scalar_05_batch_func.sh <br>
+scalars_basin.sh <br>
 
 ### Integrated basins to compare to total scalars 
 check_basin_integrals_05.sh <br>
