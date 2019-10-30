@@ -56,7 +56,7 @@ riginput=$datapath/GrIS_Basins_Rignot_extended_e${ares}000m_v1.nc
 rigfile=masksRIG.nc
 
 # IMBIE2 Zwally extended masks
-zwainput=$datapath/GrIS_Basins_Zwally_extended_e${ares}000m_v1.nc
+zwainput=$datapath/GrIS_Basins_Zwally_extended_e${ares}000m_v2.nc
 zwafile=masksZWA.nc
 
 # GIC area factors
@@ -245,12 +245,12 @@ ncks -A -v ivolfl tmpsc.nc ${scfile_mm}
 # sftgif
 ncks -A params.nc tmp.nc
 # thickness at flotation
-ncap2 -A -s 'thif=-(rhow/rhoi)*topg; thif=thif>>0' tmp_mod.nc tmp.nc
+ncap2 -A -s 'thif=-(rhow/rhoi)*topg; where (thif<0) thif=0' tmp_mod.nc tmp.nc
 # thickness above flotation
-ncap2 -O -s 'af=(lithk-thif)*sftgif*maxmask1*af2; af=af>>0' tmp.nc tmpaf.nc
+ncap2 -O -s 'af=(lithk-thif)*sftgif*maxmask1*af2; where(af<0) af=0' tmp.nc tmpaf.nc
 ncap2 -O -s 'ivaf=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
 ncks -A -v ivaf tmpsc.nc ${scfile_mm}
-/bin/rm tmp.nc tmpaf.nc tmpsc.nc 
+/bin/rm tmp.nc tmpaf.nc tmpsc.nc
 
 # Ice mass lim
 ncap2 -A -s "lim=ivol*rhoi" ${scfile_mm} ${scfile_mm} 
@@ -282,14 +282,14 @@ ncks -O params.nc ${scfile_rm}
 # sftgif
 ncks -A params.nc tmp.nc
 # thickness at flotation
-ncap2 -A -s "thif=-(rhow/rhoi)*topg; thif=thif>>0" tmp_mod.nc tmp.nc
+ncap2 -A -s "thif=-(rhow/rhoi)*topg; where (thif<0) thif=0" tmp_mod.nc tmp.nc
 
 for basin in no ne se sw cw nw; do
 # thickness above flotation 
-ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; af=af>>0" tmp.nc tmpaf.nc
+ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; where(af<0) af=0" tmp.nc tmpaf.nc
 ncap2 -O -s "ivaf_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
 ncks -A -v ivaf_${basin} tmpsc.nc ${scfile_rm}
-/bin/rm tmpaf.nc tmpsc.nc 
+/bin/rm tmpaf.nc tmpsc.nc
 
 # Ice mass above flotation
 ncap2 -A -s "limaf_${basin}=ivaf_${basin}*rhoi" ${scfile_rm} ${scfile_rm} 
@@ -320,11 +320,11 @@ ncks -O params.nc ${scfile_zm}
 # sftgif
 ncks -A params.nc tmp.nc
 # thickness at flotation
-ncap2 -A -s "thif=-(rhow/rhoi)*topg; thif=thif>>0" tmp_mod.nc tmp.nc
+ncap2 -A -s "thif=-(rhow/rhoi)*topg; where (thif<0) thif=0" tmp_mod.nc tmp.nc
 
 for basin in z11 z12 z13 z14 z21 z22 z31 z32 z33 z41 z42 z43 z50 z61 z62 z71 z72 z81 z82 ; do
 # thickness above flotation 
-ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; af=af>>0" tmp.nc tmpaf.nc
+ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; where(af<0) af=0" tmp.nc tmpaf.nc
 ncap2 -O -s "ivaf_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
 ncks -A -v ivaf_${basin} tmpsc.nc ${scfile_zm}
 /bin/rm tmpaf.nc tmpsc.nc 
@@ -351,5 +351,5 @@ fi
 
 
 # Clean up
-/bin/rm tmp_mod.nc 
+/bin/rm tmp_mod.nc
 
