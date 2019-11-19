@@ -9,9 +9,27 @@
 #outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
 outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
+# Path to SFs
+sfs=/home/hgoelzer/Projects/ISMIP6/Grids/GrIS/SFs
 
-declare -a labs=(GSFC ILTS_PIK ILTS_PIK IMAU JPL JPL LSCE UAF UCIJPL)
-declare -a models=(ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE2 ISSM ISSMPALEO GRISLI PISM1 ISSM1)
+# labs list
+#declare -a labs=(AWI AWI AWI)
+#declare -a models=(ISSM1 ISSM2 ISSM3)
+
+## labs list
+#declare -a labs=(BGC)
+#declare -a models=(BISICLES)
+
+## labs list
+#declare -a labs=(UCIJPL)
+#declare -a models=(ISSM1)
+
+
+#declare -a labs=(BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UAF UCIJPL)
+#declare -a models=(BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI PISM1 ISSM1)
+
+# or source default labs list
+source ./set_default.sh
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -21,7 +39,9 @@ else
     exit 1
 fi
 
-vars="lithk orog topg sftgif sftgrf sftflf"
+#vars="lithk orog topg sftgif sftgrf sftflf"
+#vars="acabf xvelmean yvelmean"
+vars="lithk orog topg sftgif sftgrf sftflf acabf xvelmean yvelmean"
 
 ##### 
 echo "------------------"
@@ -62,9 +82,12 @@ while [ $counter -lt ${count} ]; do
 	    echo ${anc}
 	    # remove coordinates attribute 
 	    ncatted -a coordinates,${avar},d,, ${anc}
-	    # remove coordinates attribute 
+	    # remove coordinates 
 	    ncks -O -C -x -v lat,lon,lat_bnds,lon_bnds ${anc} ${anc}
-	
+	    # add xy instead 
+            ncks -A -v x,y ${sfs}/af2_ISMIP6_GrIS_05000m.nc ${anc}
+
+
 	done
 	# end var loop
 

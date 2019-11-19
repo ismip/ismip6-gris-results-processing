@@ -42,3 +42,26 @@ find ../Data/ -maxdepth 3 -mindepth 3 -type d
 ### clean up archive after processing
 find ../Data/ -name *.tmp 
 find ../Data/ -name *.tmp | xargs -I xxx /bin/rm xxx
+
+### Processing order
+download_ghub_reproc.sh
+download_ghub.sh
+   consolidate*.sh (See below propagating bed has to come before stripping hist!)
+strip_hist.sh
+remove_coordinates.sh
+meta_param.sh
+
+
+# Consolidation
+consolidate_AWI.sh
+consolidate_AWI2.sh
+
+
+
+consolidate_BGC.sh
+consolidate_BGC2.sh
+consolidate_UCIJPL.sh
+consolidate_VUB.sh
+consolidate_VUB2.sh
+
+

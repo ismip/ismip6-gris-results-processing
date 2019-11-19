@@ -47,7 +47,7 @@ while [ $counter -lt ${count} ]; do
     echo ${exps_res}
 
     
-    # loop trough experiments to calculate scalars
+    # loop trough experiments 
     for exp_res in ${exps_res}; do
 
 	apath=${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}

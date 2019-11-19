@@ -23,20 +23,49 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 # Remote path
 RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 
+## labs list
+#declare -a labs=(ILTS_PIK ILTS_PIK)
+#declare -a models=(SICOPOLIS2 SICOPOLIS3)
+#explist="ctrl_proj_05 exp05_05"
+##explist="historical_05 ctrl_proj_05 exp05_05"
+##explist="historical_05"
+
+## labs list
+#declare -a labs=(LSCE)
+#declare -a models=(GRISLI)
+#explist="historical_05 ctrl_proj_05 exp05_05"
+
+## labs list
+#declare -a labs=(MUN MUN)
+#declare -a models=(GSM2601 GSM2611)
+#explist="historical_05 ctrl_proj_05 exp05_05"
+
+## labs list
+#declare -a labs=(VUB)
+#declare -a models=(GISMSIAv2)
+#explist="hist_05"
+##explist="hist_05 ctrl_proj_05 exp05_05"
+##explist="historical_05 ctrl_proj_05 exp05_05"
+
+
 
 # labs list
-declare -a labs=(ILTS_PIK ILTS_PIK LSCE)
-# models list
-declare -a models=(SICOPOLIS2 SICOPOLIS3 GRISLI)
+declare -a labs=(ILTS_PIK ILTS_PIK LSCE MUN MUN)
+declare -a models=(SICOPOLIS2 SICOPOLIS3 GRISLI GSM2601 GSM2611)
 #explist="ctrl_proj_05 exp05_05"
-explist="historical_05"
+#explist="historical_05 ctrl_proj_05 exp05_05"
+#explist="historical_05"
+explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
 
 # variables
+#vars="xvelmean yvelmean"
 #vars="sftgrf"
-vars="lithk orog topg sftflf sftgif sftgrf"
+#vars="lithk orog topg sftflf sftgif sftgrf"
+#vars="xvelmean yvelmean acabf"
 #vars="lithk"
 #vars="orog topg sftflf sftgif sftgrf"
+vars="lithk orog topg sftflf sftgif sftgrf xvelmean yvelmean acabf"
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 

@@ -18,6 +18,18 @@ apar05=${outp05}/${alab}/${amodel}/params.nc
 mkdir -p `dirname ${apar}` `dirname ${apar05}` 
 ncap2 -3 -A -s 'rhoi=910.; rhow=1000.; rhof=1000.' param_template.nc ${apar} 
 /bin/cp ${apar} ${apar05} 
+amodel=ISSM2
+apar=${outp}/${alab}/${amodel}/params.nc
+apar05=${outp05}/${alab}/${amodel}/params.nc
+mkdir -p `dirname ${apar}` `dirname ${apar05}` 
+ncap2 -3 -A -s 'rhoi=910.; rhow=1000.; rhof=1000.' param_template.nc ${apar} 
+/bin/cp ${apar} ${apar05} 
+amodel=ISSM3
+apar=${outp}/${alab}/${amodel}/params.nc
+apar05=${outp05}/${alab}/${amodel}/params.nc
+mkdir -p `dirname ${apar}` `dirname ${apar05}` 
+ncap2 -3 -A -s 'rhoi=910.; rhow=1000.; rhof=1000.' param_template.nc ${apar} 
+/bin/cp ${apar} ${apar05} 
 
 alab=BGC
 amodel=BISICLES
@@ -26,14 +38,6 @@ apar05=${outp05}/${alab}/${amodel}/params.nc
 mkdir -p `dirname ${apar}` `dirname ${apar05}` 
 ncap2 -3 -A -s 'rhoi=917.; rhow=1023.; rhof=1000.' param_template.nc ${apar} 
 /bin/cp ${apar} ${apar05} 
-
-#alab=IGE
-#amodel=ELMER
-#apar=${outp}/${alab}/${amodel}/params.nc
-#apar05=${outp05}/${alab}/${amodel}/params.nc
-#mkdir -p `dirname ${apar}` `dirname ${apar05}` 
-#ncap2 -3 -A -s 'rhoi=?; rhow=?; rhof=1000.' param_template.nc ${apar} 
-#/bin/cp ${apar} ${apar05} 
 
 alab=GSFC
 amodel=ISSM
@@ -102,20 +106,28 @@ mkdir -p `dirname ${apar}` `dirname ${apar05}`
 ncap2 -3 -A -s 'rhoi=918; rhow=1028; rhof=1000.' param_template.nc ${apar} 
 /bin/cp ${apar} ${apar05} 
 
-#alab=MUN
-#amodel=GSM2501
-#apar=${outp}/${alab}/${amodel}/params.nc
-#apar05=${outp05}/${alab}/${amodel}/params.nc
-#mkdir -p `dirname ${apar}` `dirname ${apar05}` 
-#ncap2 -3 -A -s 'rhoi=?; rhow=?; rhof=1000.' param_template.nc ${apar} 
-#/bin/cp ${apar} ${apar05} 
-#alab=MUN
-#amodel=GSM2511
-#apar=${outp}/${alab}/${amodel}/params.nc
-#apar05=${outp05}/${alab}/${amodel}/params.nc
-#mkdir -p `dirname ${apar}` `dirname ${apar05}` 
-#ncap2 -3 -A -s 'rhoi=?; rhow=?; rhof=1000.' param_template.nc ${apar} 
-#/bin/cp ${apar} ${apar05} 
+alab=MUN
+amodel=GSM2601
+apar=${outp}/${alab}/${amodel}/params.nc
+apar05=${outp05}/${alab}/${amodel}/params.nc
+mkdir -p `dirname ${apar}` `dirname ${apar05}` 
+ncap2 -3 -A -s 'rhoi=900; rhow=1028; rhof=1000.' param_template.nc ${apar} 
+/bin/cp ${apar} ${apar05} 
+alab=MUN
+amodel=GSM2611
+apar=${outp}/${alab}/${amodel}/params.nc
+apar05=${outp05}/${alab}/${amodel}/params.nc
+mkdir -p `dirname ${apar}` `dirname ${apar05}` 
+ncap2 -3 -A -s 'rhoi=900; rhow=1028; rhof=1000.' param_template.nc ${apar} 
+/bin/cp ${apar} ${apar05} 
+
+alab=NCAR
+amodel=CISM
+apar=${outp}/${alab}/${amodel}/params.nc
+apar05=${outp05}/${alab}/${amodel}/params.nc
+mkdir -p `dirname ${apar}` `dirname ${apar05}` 
+ncap2 -3 -A -s 'rhoi=917; rhow=1026; rhof=1000.' param_template.nc ${apar} 
+/bin/cp ${apar} ${apar05} 
 
 alab=UAF
 amodel=PISM1
@@ -146,13 +158,13 @@ mkdir -p `dirname ${apar}` `dirname ${apar05}`
 ncap2 -3 -A -s 'rhoi=917.; rhow=1023.; rhof=1000.' param_template.nc ${apar} 
 /bin/cp ${apar} ${apar05} 
 
-#alab=VUB
-#amodel=GISMSIAv2
-#apar=${outp}/${alab}/${amodel}/params.nc
-#apar05=${outp05}/${alab}/${amodel}/params.nc
-#mkdir -p `dirname ${apar}` `dirname ${apar05}` 
-#ncap2 -3 -A -s 'rhoi=?; rhow=?; rhof=1000.' param_template.nc ${apar} 
-#/bin/cp ${apar} ${apar05} 
+alab=VUB
+amodel=GISMSIAv2
+apar=${outp}/${alab}/${amodel}/params.nc
+apar05=${outp05}/${alab}/${amodel}/params.nc
+mkdir -p `dirname ${apar}` `dirname ${apar05}` 
+ncap2 -3 -A -s 'rhoi=910; rhow=1028; rhof=1000.' param_template.nc ${apar} 
+/bin/cp ${apar} ${apar05} 
 
 #alab=VUW
 #amodel=PISM

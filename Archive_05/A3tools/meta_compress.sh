@@ -12,10 +12,6 @@ sfs=/home/hgoelzer/Projects/ISMIP6/Grids/GrIS/SFs
 
 
 ## labs/models lists
-#declare -a labs=(AWI AWI AWI ILTS_PIK)
-#declare -a models=(ISSM1 ISSM2 ISSM3 SICOPOLIS2)
-
-## labs/models lists
 #declare -a labs=(MUN)
 #declare -a models=(GSM2371)
 
@@ -31,9 +27,13 @@ sfs=/home/hgoelzer/Projects/ISMIP6/Grids/GrIS/SFs
 #declare -a labs=(VUB)
 #declare -a models=(GISMSIAv1)
 
-# labs/models lists
-declare -a labs=(IMAU)
-declare -a models=(IMAUICE1)
+## labs/models lists
+#declare -a labs=(IMAU)
+#declare -a models=(IMAUICE1)
+
+
+declare -a labs=(AWI  AWI AWI BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UAF UCIJPL)
+declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI PISM1 ISSM1)
 
 # variables
 #vars="lithk"
@@ -78,11 +78,11 @@ while [ $counter -lt ${count} ]; do
 	    echo ${anc}
 
 	    # remove unused variables
-	    ncks -C -O -x -v lat,lon ${anc} ${anc}
+	    #ncks -C -O -x -v lat,lon ${anc} ${anc}
+	    # compressing
+	    nccopy -d1 ${anc} ${tmpnc}
 	    # add xy 
 	    ncks -A -v x,y ${sfs}/af2_ISMIP6_GrIS_05000m.nc ${anc}
-	    # compressing
-	    nccopy -d1 -s ${anc} ${tmpnc}
 	    # mv over
 	    /bin/mv ${tmpnc} ${anc}
 

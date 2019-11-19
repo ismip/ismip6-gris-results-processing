@@ -6,11 +6,14 @@
 #set -x
 
 # location of Archive
-outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
+#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
+outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
 
 declare -a labs=(AWI AWI AWI)
 declare -a models=(ISSM1 ISSM2 ISSM3)
+
+vars="lithk orog acabf"
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -37,8 +40,8 @@ while [ $counter -lt ${count} ]; do
     #exps_res="hist_05"
     
     # find experiments
-    dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
-    #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
+    #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
+    dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
     exps_res=`basename -a ${dexps}`
 
     echo "###"
@@ -52,21 +55,18 @@ while [ $counter -lt ${count} ]; do
 	# strip resolution suffix from exp
 	exp=${exp_res%???}
 
-	# input file name
-	anc=${apath}/lithk_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	# fix missing value flag
-	ncatted -a _FillValue,lithk,o,f,NaN ${anc}
-	ncatted -a _FillValue,lithk,o,f,0. ${anc}
-	ncatted -a _FillValue,lithk,d,, ${anc}
+        # loop through variables
+	for avar in ${vars}; do
+	    # input file name
+	    anc=${apath}/${avar}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	    echo ${anc}
+	    # fix missing value flag
+	    ncatted -a _FillValue,${avar},o,f,NaN ${anc}
+	    ncatted -a _FillValue,${avar},o,f,0. ${anc}
+	    ncatted -a _FillValue,${avar},d,, ${anc}
+	done
+	# end of var loop
 
-	# input file name
-	anc=${apath}/orog_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	# fix missing value flag
-	ncatted -a _FillValue,orog,o,f,NaN ${anc}
-	ncatted -a _FillValue,orog,o,f,0. ${anc}
-	ncatted -a _FillValue,orog,d,, ${anc}
-	
-	echo ${anc}
 
     done
     # end exp loop

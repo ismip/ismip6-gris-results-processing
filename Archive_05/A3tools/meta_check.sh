@@ -21,10 +21,10 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 #declare -a labs=(UCIJPL)
 #declare -a models=(ISSM1)
 
+#declare -a labs=(AWI  AWI AWI BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE MUN MUN NCAR UAF UCIJPL VUB)
+#declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI GSM2601 GSM2611 CISM PISM1 ISSM1 GISMSIAv2)
 
-declare -a labs=(AWI  AWI AWI BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UAF UCIJPL)
-declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI PISM1 ISSM1)
-
+source ./set_default.sh
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -34,7 +34,8 @@ else
     exit 1
 fi
 
-vars="lithk orog topg sftgif sftgrf sftflf"
+#vars="lithk orog topg sftgif sftgrf sftflf"
+vars="lithk"
 
 ##### 
 echo "------------------"
@@ -50,11 +51,11 @@ while [ $counter -lt ${count} ]; do
     #exps_res=asmb_05
     #exps_res="ctrl_05 hist_05"
     #exps_res="exp05_05"
-    #exps_res="hist_05"
+    exps_res="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
     
     # find experiments
-    dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
-    exps_res=`basename -a ${dexps}`
+    #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
+    #exps_res=`basename -a ${dexps}`
 
     echo "###"
     echo ${exps_res}

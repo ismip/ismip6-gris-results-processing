@@ -11,13 +11,19 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive/Data
 outp05=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
 # labs list
-declare -a labs=(VUB)
-# models list
-declare -a models=(GISMSIAv1)
+declare -a labs=(IMAU)
+declare -a models=(IMAUICE2)
+
+## labs list
+#declare -a labs=(LSCE)
+#declare -a models=(GRISLI)
+
+## labs list
+#declare -a labs=(VUB)
+#declare -a models=(GISMSIAv1)
 
 ## labs list
 #declare -a labs=(ILTS_PIK ILTS_PIK LSCE MUN MUN VUB)
-## models list
 #declare -a models=(SICOPOLIS2 SICOPOLIS3 GRISLI GSM2501 GSM2511 GISMSIAv1)
 
 
@@ -46,10 +52,10 @@ while [ $counter -lt ${count} ]; do
 
     echo ${labs[$counter]} ${models[$counter]}
     # 1. Set exps manually
+    #exps_res="hist_05"
     #exps_res=asmb_05
     #exps_res="ctrl_05 hist_05"
-    exps_res="exp05_05"
-    #exps_res="hist_05"
+    exps_res="exp05_05 historical_05 ctrl_proj_05"
     echo "###"
     echo ${exps_res}
 
@@ -79,7 +85,8 @@ while [ $counter -lt ${count} ]; do
 	    echo ${anc}
 
 	    # copying
-	    nccopy -d1 ${anc} ${outp05}/${labs[$counter]}/${models[$counter]}/${expresout}/${anc} 
+	    ncks -O ${anc} ${outp05}/${labs[$counter]}/${models[$counter]}/${expresout}/${anc} 
+	    #nccopy -d1 ${anc} ${outp05}/${labs[$counter]}/${models[$counter]}/${expresout}/${anc} 
 
 	done
 	#   # end vars loop

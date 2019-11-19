@@ -23,21 +23,44 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 # Remote path
 RPATH=/projects/grid/ghub/ISMIP6/Projections/Reprocessed/GIS/Archive_05
 
+
 ## labs list
+#declare -a labs=(AWI AWI AWI)
+#declare -a models=(ISSM1 ISSM2 ISSM3)
+#explist="historical_05 ctrl_proj_05 exp05_05"
+#explist="historical_05"
+
+### labs list
 #declare -a labs=(BGC )
 #declare -a models=(BISICLES )
-##explist="ctrl_proj_05 exp05_05"
-#explist="ctrl_proj_05 historical"
+#explist="historical_05 ctrl_proj_05 exp05_05"
+
+declare -a labs=(GSFC)
+declare -a models=(ISSM)
+explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
 ### labs list
 #declare -a labs=(IMAU)
 #declare -a models=(IMAUICE1)
 #explist="exp05_05"
 
+#declare -a labs=(NCAR)
+#declare -a models=(CISM)
+##explist="historical_05 ctrl_proj_05 exp05_05"
+#explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+
+#### labs list
+#declare -a labs=(UAF UAF)
+#declare -a models=(PISM1 PISM2)
+#explist="ctrl_proj_05  exp01_05"
+
 ## labs list
-declare -a labs=(UAF)
-declare -a models=(PISM2)
-explist="ctrl_proj_05  exp01_05"
+#declare -a labs=(UCIJPL)
+#declare -a models=(ISSM1)
+#explist="historical_05 ctrl_proj_05 exp05_05"
+
+
+
 
 ### labs list
 #declare -a labs=(BGC GSFC IMAU JPL JPL UAF UAF UCIJPL UCIJPL)
@@ -45,10 +68,17 @@ explist="ctrl_proj_05  exp01_05"
 ##explist="ctrl_proj_05 exp05_05"
 #explist="historical_05"
 
+#declare -a labs=(AWI AWI AWI BGC IMAU IMAU JPL JPL NCAR UAF UCIJPL)
+#declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES IMAUICE1 IMAUICE2 ISSM ISSMPALEO CISM PISM1 ISSM1)
+##explist="historical_05 ctrl_proj_05 exp05_05"
+#explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+
 
 # variables
 #vars="sftgrf"
-vars="lithk orog topg sftflf sftgif sftgrf"
+#vars="lithk orog topg sftflf sftgif sftgrf"
+#vars="xvelmean yvelmean acabf"
+vars="lithk orog topg sftflf sftgif sftgrf xvelmean yvelmean acabf"
 #vars="lithk"
 #vars="orog topg sftflf sftgif sftgrf"
 
@@ -106,6 +136,9 @@ while [ $counter -lt ${count} ]; do
 
 	    # ftp transaction; Allow generous interpretation of filename
 	    # as long the the varname is correct
+	    # NCAR workaround
+	    #scp -i ~/.ssh/id_rsa_ghub ${HOST}:${RPATH}/${labs[$counter]}/${expname}/${var}_*.nc ${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}/${anc}
+
 	    scp -i ~/.ssh/id_rsa_ghub ${HOST}:${RPATH}/${labs[$counter]}/${models[$counter]}/${expname}/${var}_*.nc ${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}/${anc}
 
 	    

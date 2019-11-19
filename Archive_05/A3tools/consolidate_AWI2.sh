@@ -35,7 +35,9 @@ while [ $counter -lt ${count} ]; do
     #exps_res=asmb_05
     #exps_res="ctrl_05 hist_05"
     #exps_res="ctrl_proj_05 exp05_05"
-    exps_res="historical_05"
+    #exps_res="historical_05"
+    #exps_res="historical_05 ctrl_proj_05 exp05_05"
+    exps_res="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
     
     # find experiments
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
