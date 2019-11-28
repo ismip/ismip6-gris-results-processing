@@ -1,0 +1,9 @@
+#!/bin/bash
+## set upload  ensemble
+
+declare -a labs=(AWI AWI AWI BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL LSCE NCAR UCIJPL)
+declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM GRISLI CISM ISSM1)
+
+#declare -a labs=(ISMIP6 ISMIP6 ISMIP6)
+#declare -a models=(NOISM_adog NOISM_adg NOISM_og)
+
