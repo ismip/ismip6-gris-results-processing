@@ -24,7 +24,7 @@ datapath=/home/hgoelzer/Projects/ISMIP6/Data
 
 flg_mm=true  # Integrals on model mask
 flg_rm=true  # IMBIE2-Rignot basins
-flg_zm=true  # IMBIE2-Zwally basins
+flg_zm=false  # IMBIE2-Zwally basins
 
 
 ## What masking to apply If true, applied to all output
@@ -175,6 +175,7 @@ ncks -3 -A -v maxmask1 ${emfile} tmp_mod.nc
 ncks -3 -A -v af2 ${af2file} tmp_mod.nc
 ncks -3 -A -v lithk ${infile} tmp_mod.nc
 ncks -3 -A -v topg ${infile} tmp_mod.nc
+ncks -3 -A -v acabf ${infile} tmp_mod.nc
 if $flg_rm; then
     ncks -3 -A  ${rigfile} tmp_mod.nc
 fi
@@ -198,7 +199,10 @@ ncks -3 -O params.nc ${scfile_mm}
 /bin/cp params.nc tmpaf.nc
 ncap2 -A -s 'af=sftgif*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
 ncap2 -O -s 'iarea=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
-ncks -A -v iarea tmpsc.nc ${scfile_mm} 
+ncks -A -v iarea tmpsc.nc ${scfile_mm}
+ncatted -a standard_name,iarea,d,, ${scfile_mm}
+ncatted -a long_name,iarea,o,c,"ice sheet area" ${scfile_mm}
+ncatted -a units,iarea,o,c,"m2" ${scfile_mm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
 # Grounded ice area Model
@@ -207,6 +211,9 @@ ncks -A -v iarea tmpsc.nc ${scfile_mm}
 ncap2 -A -s 'af=sftgrf*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
 ncap2 -O -s 'iareagr=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
 ncks -A -v iareagr tmpsc.nc ${scfile_mm}
+ncatted -a standard_name,iareagr,d,, ${scfile_mm}
+ncatted -a long_name,iareagr,o,c,"grounded ice sheet area" ${scfile_mm}
+ncatted -a units,iareagr,o,c,"m2" ${scfile_mm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
 # Floating ice area Model
@@ -215,6 +222,9 @@ ncks -A -v iareagr tmpsc.nc ${scfile_mm}
 ncap2 -A -s 'af=sftflf*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
 ncap2 -O -s 'iareafl=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
 ncks -A -v iareafl tmpsc.nc ${scfile_mm}
+ncatted -a standard_name,iareafl,d,, ${scfile_mm}
+ncatted -a long_name,iareafl,o,c,"floating ice sheet area" ${scfile_mm}
+ncatted -a units,iareafl,o,c,"m2" ${scfile_mm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
 # Ice volume model
@@ -223,6 +233,9 @@ ncks -A -v iareafl tmpsc.nc ${scfile_mm}
 ncap2 -A -s 'af=lithk*sftgif*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
 ncap2 -O -s 'ivol=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
 ncks -A -v ivol tmpsc.nc ${scfile_mm}
+ncatted -a standard_name,ivol,d,, ${scfile_mm}
+ncatted -a long_name,ivol,o,c,"ice volume" ${scfile_mm}
+ncatted -a units,ivol,o,c,"m3" ${scfile_mm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
 # Grounded ice volume model
@@ -231,6 +244,9 @@ ncks -A -v ivol tmpsc.nc ${scfile_mm}
 ncap2 -A -s 'af=lithk*sftgrf*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
 ncap2 -O -s 'ivolgr=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
 ncks -A -v ivolgr tmpsc.nc ${scfile_mm}
+ncatted -a standard_name,ivolgr,d,, ${scfile_mm}
+ncatted -a long_name,ivolgr,o,c,"grounded ice volume" ${scfile_mm}
+ncatted -a units,ivolgr,o,c,"m3" ${scfile_mm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
 # Floating ice vol model
@@ -239,6 +255,19 @@ ncks -A -v ivolgr tmpsc.nc ${scfile_mm}
 ncap2 -A -s 'af=lithk*sftflf*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
 ncap2 -O -s 'ivolfl=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
 ncks -A -v ivolfl tmpsc.nc ${scfile_mm}
+ncatted -a standard_name,ivolfl,d,, ${scfile_mm}
+ncatted -a long_name,ivolfl,o,c,"floating ice volume" ${scfile_mm}
+ncatted -a units,ivolfl,o,c,"m3" ${scfile_mm}
+/bin/rm tmpaf.nc tmpsc.nc 
+
+# Integrated acabf
+/bin/cp params.nc tmpaf.nc
+ncap2 -A -s 'af=acabf*sftgif*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
+ncap2 -O -s 'smb=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
+ncks -A -v smb tmpsc.nc ${scfile_mm}
+ncatted -a standard_name,smb,d,, ${scfile_mm}
+ncatted -a long_name,smb,o,c,"surface mass balance" ${scfile_mm}
+ncatted -a units,smb,o,c,"kg s-1" ${scfile_mm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
 # Volume above flotation model
@@ -250,16 +279,34 @@ ncap2 -A -s 'thif=-(rhow/rhoi)*topg; where (thif<0) thif=0' tmp_mod.nc tmp.nc
 ncap2 -O -s 'af=(lithk-thif)*sftgif*maxmask1*af2; where(af<0) af=0' tmp.nc tmpaf.nc
 ncap2 -O -s 'ivaf=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
 ncks -A -v ivaf tmpsc.nc ${scfile_mm}
+ncatted -a standard_name,ivaf,d,, ${scfile_mm}
+ncatted -a long_name,ivaf,o,c,"ice volume above flotation" ${scfile_mm}
+ncatted -a units,ivaf,o,c,"m3" ${scfile_mm}
 /bin/rm tmp.nc tmpaf.nc tmpsc.nc
 
 # Ice mass lim
 ncap2 -A -s "lim=ivol*rhoi" ${scfile_mm} ${scfile_mm} 
+ncatted -a standard_name,lim,d,, ${scfile_mm}
+ncatted -a long_name,lim,o,c,"ice mass" ${scfile_mm}
+ncatted -a units,lim,o,c,"kg" ${scfile_mm}
 ncap2 -A -s "limgr=ivolgr*rhoi" ${scfile_mm} ${scfile_mm} 
+ncatted -a standard_name,limgr,d,, ${scfile_mm}
+ncatted -a long_name,limgr,o,c,"grounded ice mass" ${scfile_mm}
+ncatted -a units,limgr,o,c,"kg" ${scfile_mm}
 ncap2 -A -s "limfl=ivolfl*rhoi" ${scfile_mm} ${scfile_mm} 
+ncatted -a standard_name,limfl,d,, ${scfile_mm}
+ncatted -a long_name,limfl,o,c,"floating ice mass" ${scfile_mm}
+ncatted -a units,limfl,o,c,"kg" ${scfile_mm}
 # Ice mass above flotation
 ncap2 -A -s "limaf=ivaf*rhoi" ${scfile_mm} ${scfile_mm} 
+ncatted -a standard_name,limaf,d,, ${scfile_mm}
+ncatted -a long_name,limaf,o,c,"ice mass above flotation" ${scfile_mm}
+ncatted -a units,limaf,o,c,"kg" ${scfile_mm}
 # SLE
 ncap2 -A -s "sle=ivaf*rhoi/oarea/rhof" ${scfile_mm} ${scfile_mm} 
+ncatted -a standard_name,sle,d,, ${scfile_mm}
+ncatted -a long_name,sle,o,c,"sealevel equivalent ice mass" ${scfile_mm}
+ncatted -a units,sle,o,c,"m" ${scfile_mm}
 
 # clean up
 ncatted -h -a history,global,d,, ${scfile_mm}
@@ -267,6 +314,10 @@ ncatted -h -a history_of_appended_files,global,d,, ${scfile_mm}
 ncatted -h -a NCO,global,d,, ${scfile_mm}
 ncatted -h -a CDO,global,d,, ${scfile_mm}
 ncatted -h -a CDI,global,d,, ${scfile_mm}
+ncatted -h -a Description,global,d,, ${scfile_mm}
+ncatted -h -a proj4,global,d,, ${scfile_mm}
+# Add info
+ncatted -h -a Description,global,o,c,"ISMIP6-Greenland recalculated scalar output. Heiko Goelzer 2019, h.goelzer@uu.nl" ${scfile_mm}
 
 fi
 
@@ -289,12 +340,31 @@ for basin in no ne se sw cw nw; do
 ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; where(af<0) af=0" tmp.nc tmpaf.nc
 ncap2 -O -s "ivaf_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
 ncks -A -v ivaf_${basin} tmpsc.nc ${scfile_rm}
+ncatted -a standard_name,ivaf_${basin},d,, ${scfile_rm}
+ncatted -a long_name,ivaf_${basin},o,c,"ice volume above flotation" ${scfile_rm}
+ncatted -a units,ivaf_${basin},o,c,"m3" ${scfile_rm}
 /bin/rm tmpaf.nc tmpsc.nc
+
+# Integrated acabf
+ncap2 -O -s "af=acabf*sftgif*maxmask1*af2" tmp.nc tmpaf.nc
+ncap2 -O -s "smb_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
+ncks -A -v smb_${basin} tmpsc.nc ${scfile_rm}
+ncatted -a standard_name,smb_${basin},d,, ${scfile_rm}
+ncatted -a long_name,smb_${basin},o,c,"surface mass balance" ${scfile_rm}
+ncatted -a units,smb_${basin},o,c,"kg s-1" ${scfile_rm}
+/bin/rm tmpaf.nc tmpsc.nc 
+
 
 # Ice mass above flotation
 ncap2 -A -s "limaf_${basin}=ivaf_${basin}*rhoi" ${scfile_rm} ${scfile_rm} 
+ncatted -a standard_name,limaf_${basin},d,, ${scfile_rm}
+ncatted -a long_name,limaf_${basin},o,c,"ice mass above flotation" ${scfile_rm}
+ncatted -a units,limaf_${basin},o,c,"kg" ${scfile_rm}
 # SLE
 ncap2 -A -s "sle_${basin}=ivaf_${basin}*rhoi/oarea/rhof" ${scfile_rm} ${scfile_rm} 
+ncatted -a standard_name,sle_${basin},d,, ${scfile_rm}
+ncatted -a long_name,sle_${basin},o,c,"sealevel equivalent ice mass" ${scfile_rm}
+ncatted -a units,sle_${basin},o,c,"m" ${scfile_rm}
 
 done
 /bin/rm tmp.nc 
@@ -305,6 +375,10 @@ ncatted -h -a history_of_appended_files,global,d,, ${scfile_rm}
 ncatted -h -a NCO,global,d,, ${scfile_rm}
 ncatted -h -a CDO,global,d,, ${scfile_rm}
 ncatted -h -a CDI,global,d,, ${scfile_rm}
+ncatted -h -a Description,global,d,, ${scfile_rm}
+ncatted -h -a proj4,global,d,, ${scfile_rm}
+# Add info
+ncatted -h -a Description,global,o,c,"ISMIP6-Greenland recalculated scalar output. Heiko Goelzer 2019, h.goelzer@uu.nl" ${scfile_rm}
 
 fi
 
@@ -327,12 +401,30 @@ for basin in z11 z12 z13 z14 z21 z22 z31 z32 z33 z41 z42 z43 z50 z61 z62 z71 z72
 ncap2 -O -s "af=(lithk-thif)*sftgif*${basin}*maxmask1*af2; where(af<0) af=0" tmp.nc tmpaf.nc
 ncap2 -O -s "ivaf_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
 ncks -A -v ivaf_${basin} tmpsc.nc ${scfile_zm}
+ncatted -a standard_name,ivaf_${basin},d,, ${scfile_zm}
+ncatted -a long_name,ivaf_${basin},o,c,"ice volume above flotation" ${scfile_zm}
+ncatted -a units,ivaf_${basin},o,c,"m3" ${scfile_zm}
+/bin/rm tmpaf.nc tmpsc.nc 
+
+# Integrated acabf
+ncap2 -O -s "af=acabf*sftgif*maxmask1*af2" tmp.nc tmpaf.nc
+ncap2 -O -s "smb_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
+ncks -A -v smb_${basin} tmpsc.nc ${scfile_zm}
+ncatted -a standard_name,smb_${basin},d,, ${scfile_zm}
+ncatted -a long_name,smb_${basin},o,c,"surface mass balance" ${scfile_zm}
+ncatted -a units,smb_${basin},o,c,"kg s-1" ${scfile_zm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
 # Ice mass above flotation
 ncap2 -A -s "limaf_${basin}=ivaf_${basin}*rhoi" ${scfile_zm} ${scfile_zm} 
+ncatted -a standard_name,limaf_${basin},d,, ${scfile_zm}
+ncatted -a long_name,limaf_${basin},o,c,"ice mass above flotation" ${scfile_zm}
+ncatted -a units,limaf_${basin},o,c,"kg" ${scfile_zm}
 # SLE
 ncap2 -A -s "sle_${basin}=ivaf_${basin}*rhoi/oarea/rhof" ${scfile_zm} ${scfile_zm} 
+ncatted -a standard_name,sle_${basin},d,, ${scfile_zm}
+ncatted -a long_name,sle_${basin},o,c,"sealevel equivalent ice mass" ${scfile_zm}
+ncatted -a units,sle_${basin},o,c,"m" ${scfile_zm}
 
 done
 /bin/rm tmp.nc 
@@ -343,6 +435,10 @@ ncatted -h -a history_of_appended_files,global,d,, ${scfile_zm}
 ncatted -h -a NCO,global,d,, ${scfile_zm}
 ncatted -h -a CDO,global,d,, ${scfile_zm}
 ncatted -h -a CDI,global,d,, ${scfile_zm}
+ncatted -h -a Description,global,d,, ${scfile_zm}
+ncatted -h -a proj4,global,d,, ${scfile_zm}
+# Add info
+ncatted -h -a Description,global,o,c,"ISMIP6-Greenland recalculated scalar output. Heiko Goelzer 2019, h.goelzer@uu.nl" ${scfile_zm}
 
 
 fi
