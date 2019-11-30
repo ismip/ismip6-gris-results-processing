@@ -1,6 +1,7 @@
 #!/bin/bash
 ##SBATCH -p short -N 1 -t 0:10:00
-#SBATCH -p normal -N 1 -t 0:40:00
+#SBATCH -p normal -N 1 -t 1:00:00
+##SBATCH -p normal -N 1 -t 3:00:00
 
 # For interactive use:
 # srun -t 10 -N 1 --pty bash -il
@@ -22,6 +23,7 @@ cd $scrpath
 /bin/cp ${exppath}/meta_scalar_05_batch.sh ./
 /bin/cp ${exppath}/scalar_05_batch_func.sh ./
 /bin/cp ${exppath}/scalars_basin.sh ./
+/bin/cp ${exppath}/set_default.sh ./
 
 # run the model
 ./meta_scalar_05_batch.sh
@@ -42,4 +44,7 @@ cat scalar_05_batch_func.sh
 echo 'The run script was:'
 echo '#####'
 cat scalars_basin.sh
+echo 'The model set was:'
+echo '#####'
+cat set_default.sh
 echo '#####'

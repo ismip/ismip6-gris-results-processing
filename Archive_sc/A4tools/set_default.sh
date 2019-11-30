@@ -19,8 +19,18 @@
 #declare -a labs=(JPL LSCE UAF)
 #declare -a models=(ISSMPALEO GRISLI PISM1)
 
-declare -a labs=(ISMIP6 ISMIP6 ISMIP6)
-declare -a models=(NOISM_adog NOISM_adg NOISM_og)
+#declare -a labs=(ISMIP6)
+#declare -a models=(NOISM_adog)
+
+declare -a labs=(ISMIP6 ISMIP6)
+declare -a models=(NOISM_adog NOISM_adg)
+
+#declare -a labs=(ISMIP6)
+#declare -a models=(NOISM_og)
+
+
+#declare -a labs=(ISMIP6 ISMIP6 ISMIP6)
+#declare -a models=(NOISM_adog NOISM_adg NOISM_og)
 
 #declare -a labs=(IMAU)
 #declare -a models=(CISM1)

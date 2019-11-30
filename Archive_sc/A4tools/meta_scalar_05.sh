@@ -20,8 +20,8 @@ flg_OBSmask=false # [Default false!]
 
 ares=05
 
-#declare -a labs=(AWI)
-#declare -a models=(ISSM1)
+declare -a labs=(AWI AWI)
+declare -a models=(ISSM2 ISSM3)
 
 ## labs/models lists
 #declare -a labs=(ILTS_PIK)
@@ -29,11 +29,11 @@ ares=05
 
 # labs/models lists
 #declare -a labs=(IMAU)
-#declare -a models=(NOISM05)
+#declare -a models=(IMAUICE1)
 
 # labs/models lists
-declare -a labs=(JPL)
-declare -a models=(ISSM)
+#declare -a labs=(JPL)
+#declare -a models=(ISSM)
 
 # labs/models lists
 #declare -a labs=(MUN)
@@ -100,10 +100,10 @@ while [ $counter -lt ${count} ]; do
     # A. set exps manually
     #exps_res=asmb_05
     #exps_res="ctrl_05 historical_05"
-    exps_res="exp05_05"
+    #exps_res="exp05_05"
     #exps_res="historical_05"
     #exps_res="ctrl_05"
-    #exps_res="ctrl_proj_05 historical_05 exp05_05"
+    exps_res="historical_05 ctrl_proj_05 exp05_05"
     
     # B. find experiments automatically
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`

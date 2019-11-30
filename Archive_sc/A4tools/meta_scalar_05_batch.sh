@@ -24,8 +24,8 @@ flg_OBSmask=false # [Default false!]
 
 ares=05
 
-#declare -a labs=(AWI)
-#declare -a models=(ISSM1)
+#declare -a labs=(AWI AWI AWI)
+#declare -a models=(ISSM1 ISSM2 ISSM3)
 
 ## labs/models lists
 #declare -a labs=(ILTS_PIK)
@@ -86,18 +86,18 @@ ares=05
 #declare -a models=(BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI ISSM1)
 
 # labs/models lists
-declare -a labs=(BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UCIJPL)
-declare -a models=(BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI ISSM1)
+#declare -a labs=(BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UCIJPL)
+#declare -a models=(BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI ISSM1)
 
 #declare -a labs=(BGC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UCIJPL)
 #declare -a models=(BISICLES SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI ISSM1)
 
-# labs/models lists
-#declare -a labs=(GSFC)
-#declare -a models=(ISSM)
-# labs/models lists
-#declare -a labs=(UAF)
-#declare -a models=(PISM1)
+#declare -a labs=(AWI AWI AWI BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UCIJPL)
+#declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI ISSM1)
+
+# or source default labs list
+source ./set_default.sh
+
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -123,7 +123,14 @@ while [ $counter -lt ${count} ]; do
     #exps_res="historical_05"
     #exps_res="ctrl_05"
     #exps_res="ctrl_proj_05 historical_05 exp05_05"
-    exps_res="historical_05 ctrl_proj_05 exp05_05"
+    #exps_res="historical_05 ctrl_proj_05 exp05_05"
+    #exps_res="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05 "
+    
+    #exps_res="historical_05 ctrl_proj_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05 "
+    #exps_res="ctrl_proj_05 exp05_05"
+
+    exps_res="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05 expa01_05 expa02_05 expa03_05"
+
     
     # B. find experiments automatically
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`

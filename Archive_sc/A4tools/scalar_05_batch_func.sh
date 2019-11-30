@@ -41,6 +41,9 @@ anc=${apath}/sftgif_GIS_${lab}_${model}_${exp}.nc
 ncks -3 -A -v sftgif ${anc} model_pre.nc
 anc=${apath}/sftgrf_GIS_${lab}_${model}_${exp}.nc
 ncks -3 -A -v sftgrf ${anc} model_pre.nc
+# acabf
+anc=${apath}/acabf_GIS_${lab}_${model}_${exp}.nc
+ncks -3 -A -v acabf ${anc} model_pre.nc
 
 # set missing to zero like during interpolation 
 cdo -setmisstoc,0.0  model_pre.nc model.nc 
