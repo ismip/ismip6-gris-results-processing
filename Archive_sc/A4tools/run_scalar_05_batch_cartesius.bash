@@ -24,6 +24,7 @@ cd $scrpath
 /bin/cp ${exppath}/scalar_05_batch_func.sh ./
 /bin/cp ${exppath}/scalars_basin.sh ./
 /bin/cp ${exppath}/set_default.sh ./
+/bin/cp ${exppath}/set_exps.sh ./
 
 # run the model
 ./meta_scalar_05_batch.sh
@@ -47,4 +48,8 @@ cat scalars_basin.sh
 echo 'The model set was:'
 echo '#####'
 cat set_default.sh
+echo '#####'
+echo 'The exps set was:'
+echo '#####'
+cat set_exps.sh
 echo '#####'
