@@ -26,8 +26,8 @@ ares=05
 #declare -a models=(NOISM05)
 
 # labs/models lists
-declare -a labs=(JPL)
-declare -a models=(ISSM)
+#declare -a labs=(JPL)
+#declare -a models=(ISSM)
 
 # labs/models lists
 #declare -a labs=(MUN)
@@ -45,28 +45,13 @@ declare -a models=(ISSM)
 #declare -a labs=(LSCE)
 #declare -a models=(GRISLI)
 
+## labs/models lists
+#declare -a labs=(AWI  AWI AWI BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UAF UCIJPL)
+#declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI PISM1 ISSM1)
 
+# or source default labs list
+source ./set_default.sh
 
-
-# labs/models lists
-#declare -a labs=(LSCE)
-#declare -a models=(GRISLI)
-
-# labs/models lists
-#declare -a labs=(IMAU LSCE)
-#declare -a models=(IMAUICE2 GRISLI)
-
-# labs/models lists
-#declare -a labs=(ILTS_PIK IMAU LSCE)
-#declare -a models=(SICOPOLIS2 IMAUICE2 GRISLI)
-
-# labs/models lists
-#declare -a labs=(AWI AWI AWI ILTS_PIK ILTS_PIK IMAU JPL JPL)
-#declare -a models=(ISSM1 ISSM2 ISSM3 SICOPOLIS2 SICOPOLIS3 IMAUICE1 ISSM ISSMPALEO)
-
-# labs/models lists
-#declare -a labs=(GSFC  ILTS_PIK ILTS_PIK  JPL JPL  LSCE  MUN MUN  UCIJPL)
-#declare -a models=(ISSM SICOPOLIS2 SICOPOLIS3 ISSM ISSMPALEO GRISLI GSM2501 GSM2511 ISSM)
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -75,6 +60,7 @@ else
     echo Error: length of labs and models has to match  
     exit 1
 fi
+
 
 vars="lithk orog topg sftgif sftgrf sftflf"
 

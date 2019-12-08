@@ -1,24 +1,21 @@
 #!/bin/bash
-# Calculate 2d differences minus control for a number of models/experiments
+# Calculate 2d differences proj-control for a number of models/experiments
 # requires differences for ctrl_proj to be extracted before: use meta_2d_proj_diff_05.sh
 # requires differences for exp to be extracted before: use meta_2d_proj_diff_05.sh
 
 set -x
 set -e
 
-# location of Archive
-#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
-outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
-
-# Destination for scalar files
-outpsc=/home/hgoelzer/Projects/ISMIP6/Archive_2d/Data
+# Destination for 2d files
+outp2d=/home/hgoelzer/Projects/ISMIP6/Archive_2d/Data
 
 ## Settings
 ares=05
 
-## labs/models lists
-declare -a labs=(AWI  AWI AWI BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UCIJPL)
-declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI ISSM1)
+
+### labs/models lists
+#declare -a labs=(AWI  AWI AWI BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UCIJPL)
+#declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI ISSM1)
 
 #declare -a labs=(BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UCIJPL)
 #declare -a models=(BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI ISSM1)
@@ -33,9 +30,18 @@ declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE
 #declare -a models=(ISSM)
 
 
-vars="lithk orog topg sftgif sftgrf sftflf"
+# or source default labs list
+source ./set_default.sh
+
+#declare -a labs=(UAF)
+#declare -a models=(PISM1)
+
+#vars="lithk orog topg sftgif sftgrf sftflf"
 #vars="lithk orog sftgif sftgrf sftflf"
 #vars="lithk orog  sftgrf sftflf"
+#vars="lithk orog topg sftgif sftgrf sftflf xvelmean yvelmean acabf"
+# or source default vars list
+source ./set_vars.sh
 
 
 # array sizes match
@@ -46,6 +52,8 @@ else
     exit 1
 fi
 
+# default experiments
+source ./set_exps.sh
 
 ##### 
 echo "------------------"
@@ -65,11 +73,15 @@ while [ $counter -lt ${count} ]; do
     # A. set exps manually
     #exps_res=asmb_${ares}
     #exps_res="ctrl_${ares} historical_${ares}"
-    exps_res="exp05_${ares} ctrl_proj_${ares}"
+    #exps_res="exp05_${ares} ctrl_proj_${ares}"
     #exps_res="historical_${ares}"
     #exps_res="ctrl_${ares}"
     #exps_res="ctrl_proj_${ares} historical_${ares} exp05_${ares}"
-    
+
+    #exps_res="ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+
+    #exps_res="ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05"
+
     # B. find experiments automatically
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_${ares}`
@@ -82,13 +94,12 @@ while [ $counter -lt ${count} ]; do
     # loop trough experiments
     for exp_res in ${exps_res}; do
 
-	apath=${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}
 	# strip resolution suffix from exp
 	exp=${exp_res%???}
 
 	# output dir
-	ctrlpath=${outpsc}/${prefix}/${labs[$counter]}/${models[$counter]}/ctrl_proj_${ares}
-	destpath=${outpsc}/${prefix}/${labs[$counter]}/${models[$counter]}/${exp_res}
+	ctrlpath=${outp2d}/${prefix}/${labs[$counter]}/${models[$counter]}/ctrl_proj_${ares}
+	destpath=${outp2d}/${prefix}/${labs[$counter]}/${models[$counter]}/${exp_res}
 	mkdir -p ${destpath}
 
 	# loop through variables

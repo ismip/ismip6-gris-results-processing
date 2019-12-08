@@ -1,14 +1,13 @@
 #!/bin/bash
 # Calculate 2d values for a number of models/experiments
+# Velocities
+# requires hist to be extracted before: use meta_2d_hist_05.sh
 
 set -x
 set -e
 
 # location of Archive
-#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
-outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
-
-# Destination for scalar files
+# Destination for 2d files
 outp2d=/home/hgoelzer/Projects/ISMIP6/Archive_2d/Data
 
 ## Settings
@@ -59,6 +58,9 @@ ares=05
 # or source default labs list
 source ./set_default.sh
 
+#declare -a labs=(UAF)
+#declare -a models=(PISM1)
+
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -68,12 +70,8 @@ else
     exit 1
 fi
 
-
-#vars="lithk orog topg sftgif sftgrf sftflf"
-#vars="xvelmean yvelmean acabf"
-#vars="lithk orog topg sftgif sftgrf sftflf xvelmean yvelmean acabf"
-# or source default vars list
-source ./set_vars.sh
+# Required:
+#vars="xvelmean yvelmean"
 
 ##### 
 echo "------------------"
@@ -100,26 +98,24 @@ while [ $counter -lt ${count} ]; do
     # loop trough experiments
     for exp_res in ${exps_res}; do
 
-	apath=${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}
 	# strip resolution suffix from exp
 	exp=${exp_res%???}
 
 	# output dir
-	destpath=${outp2d}/${prefix}/${labs[$counter]}/${models[$counter]}/${exp_res}
-	mkdir -p ${destpath}
+	apath=${outp2d}/${prefix}/${labs[$counter]}/${models[$counter]}/${exp_res}
 
-	# loop through variables
-	for avar in ${vars}; do
+	# extract snapshots
+	ancx=${apath}/xvelmean_2014_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	ancy=${apath}/yvelmean_2014_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	anc=${apath}/velmean_2014_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 
-	    # extract snapshots
-	    anc=${apath}/${avar}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	    ncks -F -3 -O -d time,-1 -v ${avar} ${anc} ${avar}_2014.nc
+	ncks -O -v xvelmean ${ancx} vel_tmp.nc
+	ncks -A -v yvelmean ${ancy} vel_tmp.nc
+	ncap2 -O -s 'velmean = (xvelmean^2 + yvelmean^2)^0.5' -v vel_tmp.nc vel.nc 
 
-	    # move to Archive
-	    [ -f ./${avar}_2014.nc ] && /bin/mv ./${avar}_2014.nc ${destpath}/${avar}_2014_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-
-	done
-	# end var loop
+	# move to Archive
+	[ -f ./vel.nc ] && /bin/mv ./vel.nc ${anc}
+	/bin/rm vel_tmp.nc 
 
     done
     # end exp loop

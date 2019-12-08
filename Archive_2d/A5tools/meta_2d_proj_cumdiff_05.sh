@@ -1,17 +1,17 @@
 #!/bin/bash
-# Calculate 2d differences proj-hist for a number of models/experiments
+# Calculate 2d differences for a number of models/experiments
+# double difference lithk-cumulative acabf 
 # requires proj to be extracted before: use meta_2d_proj_05.sh
-# requires historical to be extracted before: use meta_2d_hist_05.sh
+# requires cumulative acabf to be extracted before: use meta_2d_proj_cum_05.sh
 
 set -x
 set -e
 
 # location of Archive
-#outp=/Volumes/ISMIP6/ISMIP6-Greenland/Archive_05/Data
 outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
-# Destination for scalar files
-outpsc=/home/hgoelzer/Projects/ISMIP6/Archive_2d/Data
+# Destination for 2d files
+outp2d=/home/hgoelzer/Projects/ISMIP6/Archive_2d/Data
 
 ## Settings
 ares=05
@@ -38,12 +38,9 @@ source ./set_default.sh
 #declare -a labs=(UAF)
 #declare -a models=(PISM1)
 
-#vars="lithk orog topg sftgif sftgrf sftflf"
-#vars="lithk orog sftgif sftgrf sftflf"
-#vars="lithk orog  sftgrf sftflf"
-#vars="lithk orog topg sftgif sftgrf sftflf xvelmean yvelmean acabf"
-# or source default vars list
-source ./set_vars.sh
+
+# Needed
+#vars="dd_lithk iacabf"
 
 
 # array sizes match
@@ -73,17 +70,11 @@ while [ $counter -lt ${count} ]; do
     cd ${proc}
 
     # A. set exps manually
-    #exps_res=asmb_${ares}
-    #exps_res="ctrl_${ares} historical_${ares}"
-    #exps_res="exp05_${ares} ctrl_proj_${ares}"
-    #exps_res="historical_${ares}"
-    #exps_res="ctrl_${ares}"
-    #exps_res="ctrl_proj_${ares} historical_${ares} exp05_${ares}"
+    #exps_res="exp05_${ares}"
+    #exps_res="exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
-    #exps_res="ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+    #exps_res="exp05_05 exp06_05 exp07_05 exp08_05 exp09_05"
 
-    #exps_res="ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05"
-    
     # B. find experiments automatically
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_${ares}`
@@ -96,33 +87,30 @@ while [ $counter -lt ${count} ]; do
     # loop trough experiments
     for exp_res in ${exps_res}; do
 
-	apath=${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}
 	# strip resolution suffix from exp
 	exp=${exp_res%???}
 
-	# output dir
-	histpath=${outpsc}/${prefix}/${labs[$counter]}/${models[$counter]}/historical_${ares}
-	destpath=${outpsc}/${prefix}/${labs[$counter]}/${models[$counter]}/${exp_res}
-	mkdir -p ${destpath}
+	# dirs
+	apath=${outp2d}/${prefix}/${labs[$counter]}/${models[$counter]}/${exp_res}
 
-	# loop through variables
-	for avar in ${vars}; do
+	# loop through years
+	for ayr in 2100; do
+	#for ayr in 2040 2060 2100; do
+	    anc_dyn=${apath}/dd_lithk_${ayr}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	    anc_smb=${apath}/iacabf_${ayr}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	    ncks -O -v lithk ${anc_dyn} dyn_tmp.nc
+	    ncks -A -v iacabf ${anc_smb} dyn_tmp.nc
+	    # Add model params
+            ncks -A ${outp}/${labs[$counter]}/${models[$counter]}/params.nc dyn_tmp.nc
 
-	    # extract snapshots
-	    anc_hist=${histpath}/${avar}_2014_GIS_${labs[$counter]}_${models[$counter]}_historical.nc
-
-	    # loop through years
-	    for ayr in 2100; do
-	    #for ayr in 2040 2060 2100; do
-		anc=${destpath}/${avar}_${ayr}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	    # difference
-		ncdiff ${anc} ${anc_hist} d_${avar}_${ayr}.nc
-		# move to Archive
-		[ -f ./d_${avar}_${ayr}.nc ] && /bin/mv ./d_${avar}_${ayr}.nc ${destpath}/d_${avar}_${ayr}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	    done
-	    # end year loop
+	    #ncdiff ${anc_dyn} ${anc_smb} dyncon_${ayr}.nc
+	    ncap2 -O -s 'dyncon=lithk-(iacabf/rhoi)' -v dyn_tmp.nc dyncon_${ayr}.nc 
+
+	    # move to Archive
+	    [ -f ./dyncon_${ayr}.nc ] && /bin/mv ./dyncon_${ayr}.nc ${apath}/dyncon_${ayr}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	done
-	# end var loop
+	# end year loop
 
     done
     # end exp loop
