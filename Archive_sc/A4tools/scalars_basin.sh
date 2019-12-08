@@ -260,9 +260,9 @@ ncatted -a long_name,ivolfl,o,c,"floating ice volume" ${scfile_mm}
 ncatted -a units,ivolfl,o,c,"m3" ${scfile_mm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
-# Integrated acabf
+# Integrated acabf over grounded ice
 /bin/cp params.nc tmpaf.nc
-ncap2 -A -s 'af=acabf*sftgif*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
+ncap2 -A -s 'af=acabf*sftgrf*maxmask1*af2' -v tmp_mod.nc tmpaf.nc
 ncap2 -O -s 'smb=af.total($x,$y)*dx^2' -v tmpaf.nc tmpsc.nc
 ncks -A -v smb tmpsc.nc ${scfile_mm}
 ncatted -a standard_name,smb,d,, ${scfile_mm}
@@ -346,7 +346,7 @@ ncatted -a units,ivaf_${basin},o,c,"m3" ${scfile_rm}
 /bin/rm tmpaf.nc tmpsc.nc
 
 # Integrated acabf
-ncap2 -O -s "af=acabf*sftgif*maxmask1*af2" tmp.nc tmpaf.nc
+ncap2 -O -s "af=acabf*sftgrf*maxmask1*af2" tmp.nc tmpaf.nc
 ncap2 -O -s "smb_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
 ncks -A -v smb_${basin} tmpsc.nc ${scfile_rm}
 ncatted -a standard_name,smb_${basin},d,, ${scfile_rm}
@@ -407,7 +407,7 @@ ncatted -a units,ivaf_${basin},o,c,"m3" ${scfile_zm}
 /bin/rm tmpaf.nc tmpsc.nc 
 
 # Integrated acabf
-ncap2 -O -s "af=acabf*sftgif*maxmask1*af2" tmp.nc tmpaf.nc
+ncap2 -O -s "af=acabf*sftgrf*maxmask1*af2" tmp.nc tmpaf.nc
 ncap2 -O -s "smb_${basin}=af.total(\$x,\$y)*dx^2" -v tmpaf.nc tmpsc.nc
 ncks -A -v smb_${basin} tmpsc.nc ${scfile_zm}
 ncatted -a standard_name,smb_${basin},d,, ${scfile_zm}

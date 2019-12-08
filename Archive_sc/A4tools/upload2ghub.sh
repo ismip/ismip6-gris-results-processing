@@ -4,7 +4,7 @@ set -x
 set -e
 
 # versioning
-aversion=v0
+aversion=v1
 
 HOST='transfer.ccr.buffalo.edu'
 
@@ -25,9 +25,8 @@ else
     exit 1
 fi
 
-exps_res="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05 "
-#exps_res="historical_05 ctrl_proj_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05 "
-#exps_res="exp05_05"
+exps_res="exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+#exps_res="exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05 expa01_05 expa02_05 expa03_05"
 
 ######
 
@@ -51,8 +50,8 @@ while [ $counter -lt ${count} ]; do
 
 	# register files for transfer
 	echo  "cd ${RPATH}/${aversion}/${labs[$counter]}/${models[$counter]}/${exp_res}/" >> sftpbatch.tmp
-	echo  "put ${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_mm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc" >> sftpbatch.tmp
-	echo  "put ${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_rm_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc" >> sftpbatch.tmp
+	echo  "put ${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_mm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc" >> sftpbatch.tmp
+	echo  "put ${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_rm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc" >> sftpbatch.tmp
 		
     done
     # end exp loop

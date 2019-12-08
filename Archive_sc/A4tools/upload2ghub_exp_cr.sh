@@ -4,7 +4,7 @@ set -x
 set -e
 
 # versioning
-aversion=v1
+aversion=v2
 
 HOST='transfer.ccr.buffalo.edu'
 
@@ -61,4 +61,3 @@ echo "exit" >> sftpbatch.tmp
 
 # Upload files as ftp batch
 sftp -b sftpbatch.tmp ${HOST}
-

@@ -14,9 +14,6 @@ ares=05
 # or source default labs list
 source ./set_default.sh
 
-#declare -a labs=(UAF)
-#declare -a models=(PISM1)
-
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
     count=${#models[@]}
@@ -27,9 +24,6 @@ fi
 
 # Define files to process
 files="scalars_mm scalars_rm"
-
-# default experiments
-source ./set_exps.sh
 
 ##### 
 echo "------------------"
