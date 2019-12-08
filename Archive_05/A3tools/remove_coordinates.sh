@@ -17,10 +17,6 @@ sfs=/home/hgoelzer/Projects/ISMIP6/Grids/GrIS/SFs
 #declare -a models=(ISSM1 ISSM2 ISSM3)
 
 ## labs list
-#declare -a labs=(BGC)
-#declare -a models=(BISICLES)
-
-## labs list
 #declare -a labs=(UCIJPL)
 #declare -a models=(ISSM1)
 
@@ -30,6 +26,19 @@ sfs=/home/hgoelzer/Projects/ISMIP6/Grids/GrIS/SFs
 
 # or source default labs list
 source ./set_default.sh
+
+#declare -a labs=(JPL)
+#declare -a models=(ISSMPALEO)
+
+#declare -a labs=(UAF)
+#declare -a models=(PISM1)
+
+#declare -a labs=(BGC)
+#declare -a models=(BISICLES)
+
+declare -a labs=(UAF UAF UCIJPL VUW)
+declare -a models=(PISM1 PISM2 ISSM2 PISM)
+
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -41,6 +50,8 @@ fi
 
 #vars="lithk orog topg sftgif sftgrf sftflf"
 #vars="acabf xvelmean yvelmean"
+#vars="sftgif sftgrf sftflf"
+
 vars="lithk orog topg sftgif sftgrf sftflf acabf xvelmean yvelmean"
 
 ##### 
@@ -57,7 +68,7 @@ while [ $counter -lt ${count} ]; do
     #exps_res=asmb_05
     #exps_res="ctrl_05 hist_05"
     #exps_res="exp05_05"
-    #exps_res="hist_05"
+    #exps_res="historical_05"
     
     # find experiments
     dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`

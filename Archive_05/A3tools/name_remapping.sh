@@ -4,52 +4,6 @@
 # location of Archive
 outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
-
-## labs list
-#declare -a labs=(AWI)
-##declare -a labs=(AWI AWI AWI)
-## models list
-#declare -a models=(ISSM1)
-##declare -a models=(ISSM1 ISSM2 ISSM3)
-## res
-#res=01
-## exp mapping 
-#declare -a inexps=(MIROC5-rcp85_Rmed)
-#declare -a outexps=(exp05)
-##declare -a inexps=(historical MIROC5-rcp85_Rmed NorESM1-rcp85_Rmed MIROC5-rcp26_Rmed HadGEM2-ES-rcp85_Rmed MIROC5-rcp85_Rhigh MIROC5-rcp85_Rlow)
-##declare -a outexps=(hist exp05 exp06 exp07 exp08 exp09 exp10)
-
-
-## labs list
-#declare -a labs=(MUN MUN)
-## models list
-#declare -a models=(GSM2501 GSM2511)
-## res
-#res=05
-## exp mapping 
-#declare -a inexps=(historical)
-#declare -a outexps=(hist)
-
-## labs list
-#declare -a labs=(UCIJPL)
-## models list
-#declare -a models=(ISSM)
-## res
-#res=01
-## exp mapping 
-#declare -a inexps=(historical)
-#declare -a outexps=(hist)
-
-## labs list
-#declare -a labs=(LSCE)
-## models list
-#declare -a models=(GRISLI)
-## res
-#res=05
-## exp mapping 
-#declare -a inexps=(hist)
-#declare -a outexps=(historical)
-
 ## labs list
 #declare -a labs=(JPL)
 ## models list
@@ -57,34 +11,19 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 ## res
 #res=01
 ## exp mapping 
-##declare -a inexps=(historical MIROC5-rcp85-Rmed)
-##declare -a outexps=(hist exp05)
-#declare -a inexps=(MIROC5-rcp85-Rmed)
-#declare -a outexps=(exp05)
+##declare -a inexps=(hist MIROC5-rcp85-Rmed)
+##declare -a outexps=(historical exp05)
 
-## labs list
-#declare -a labs=(JPL)
-## models list
-#declare -a models=(ISSM)
-## res
-#res=01
-## exp mapping 
-##declare -a inexps=(historical MIROC5-rcp85-Rmed)
-##declare -a outexps=(hist exp05)
-#declare -a inexps=(MIROC5-rcp85-Rmed)
-#declare -a outexps=(exp05)
 
 # labs list
-declare -a labs=(VUB)
+declare -a labs=(UAF)
 # models list
-declare -a models=(GISMSIAv2)
+declare -a models=(PISM2)
 # res
 res=05
 # exp mapping 
-#declare -a inexps=(MIROC5-rcp85-Rmed)
-#declare -a outexps=(exp05)
-declare -a inexps=(hist)
-declare -a outexps=(historical )
+declare -a inexps=(exp01 exp02 exp03 exp04)
+declare -a outexps=(exp05 exp06 exp07 exp08)
 
 
 # variables

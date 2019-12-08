@@ -10,7 +10,7 @@
 outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
 declare -a labs=(UCIJPL)
-declare -a models=(ISSM1)
+declare -a models=(ISSM2)
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -52,18 +52,15 @@ while [ $counter -lt ${count} ]; do
 	# strip resolution suffix from exp
 	exp=${exp_res%???}
 
-	# input file name
-	anc=${apath}/lithk_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	# fix missing value flag
-	ncatted -a _FillValue,lithk,o,f,NaN ${anc}
-	ncatted -a _FillValue,lithk,o,f,0. ${anc}
-	ncatted -a _FillValue,lithk,d,, ${anc}
-
-	anc=${apath}/orog_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	# fix missing value flag
-	ncatted -a _FillValue,orog,o,f,NaN ${anc}
-	ncatted -a _FillValue,orog,o,f,0. ${anc}
-	ncatted -a _FillValue,orog,d,, ${anc}
+	for avar in lithk orog acabf xvelmean yvelmean; do
+	    # input file name
+	    anc=${apath}/${avar}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	    # fix missing value flag
+	    ncatted -a _FillValue,${avar},o,f,NaN ${anc}
+	    ncatted -a _FillValue,${avar},o,f,0. ${anc}
+	    ncatted -a _FillValue,${avar},d,, ${anc}
+	    echo ${anc}
+	done
 	
 	anc=${apath}/topg_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	# fix missing value flag
@@ -72,7 +69,6 @@ while [ $counter -lt ${count} ]; do
 	ncatted -a _FillValue,topg,d,, ${anc}
 	
 	echo ${anc}
-
     done
     # end exp loop
     

@@ -32,13 +32,15 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 
 ## labs list
 #declare -a labs=(LSCE)
-#declare -a models=(GRISLI)
+#declare -a models=(GRISLI2)
 #explist="historical_05 ctrl_proj_05 exp05_05"
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
 ## labs list
-#declare -a labs=(MUN MUN)
-#declare -a models=(GSM2601 GSM2611)
-#explist="historical_05 ctrl_proj_05 exp05_05"
+declare -a labs=(VUB)
+declare -a models=(GISMSIAv3)
+#explist="historical_05 ctrl_proj_05"
+explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
 ## labs list
 #declare -a labs=(VUB)
@@ -49,13 +51,13 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 
 
 
-# labs list
-declare -a labs=(ILTS_PIK ILTS_PIK LSCE MUN MUN)
-declare -a models=(SICOPOLIS2 SICOPOLIS3 GRISLI GSM2601 GSM2611)
-#explist="ctrl_proj_05 exp05_05"
-#explist="historical_05 ctrl_proj_05 exp05_05"
-#explist="historical_05"
-explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+## labs list
+#declare -a labs=(ILTS_PIK ILTS_PIK LSCE MUN MUN)
+#declare -a models=(SICOPOLIS2 SICOPOLIS3 GRISLI GSM2601 GSM2611)
+##explist="ctrl_proj_05 exp05_05"
+##explist="historical_05 ctrl_proj_05 exp05_05"
+##explist="historical_05"
+#explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
 
 # variables

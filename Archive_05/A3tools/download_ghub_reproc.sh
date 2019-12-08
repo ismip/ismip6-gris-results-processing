@@ -33,33 +33,54 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/Reprocessed/GIS/Archive_05
 ### labs list
 #declare -a labs=(BGC )
 #declare -a models=(BISICLES )
-#explist="historical_05 ctrl_proj_05 exp05_05"
+#explist="historical_05"
 
-declare -a labs=(GSFC)
-declare -a models=(ISSM)
-explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+#declare -a labs=(GSFC)
+#declare -a models=(ISSM)
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
 ### labs list
 #declare -a labs=(IMAU)
 #declare -a models=(IMAUICE1)
 #explist="exp05_05"
 
+## labs list
+#declare -a labs=(JPL)
+#declare -a models=(ISSMPALEO)
+#explist="ctrl_proj_05  exp01_05"
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+
 #declare -a labs=(NCAR)
 #declare -a models=(CISM)
 ##explist="historical_05 ctrl_proj_05 exp05_05"
-#explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+##explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
 #### labs list
-#declare -a labs=(UAF UAF)
-#declare -a models=(PISM1 PISM2)
-#explist="ctrl_proj_05  exp01_05"
+#declare -a labs=(UAF)
+#declare -a models=(PISM1)
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+#explist="exp10_05"
 
 ## labs list
 #declare -a labs=(UCIJPL)
 #declare -a models=(ISSM1)
-#explist="historical_05 ctrl_proj_05 exp05_05"
+##explist="historical_05 ctrl_proj_05 exp05_05"
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+
+#declare -a labs=(VUW)
+#declare -a models=(PISM)
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
 
 
+#declare -a labs=(UAF)
+#declare -a models=(PISM2)
+#explist="historical_05 ctrl_proj_05 exp01_05 exp02_05 exp03_05 exp04_05"
+
+#declare -a labs=(UCIJPL)
+#declare -a models=(ISSM2)
+#explist="historical_05"
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
 
 
 ### labs list
@@ -73,14 +94,23 @@ explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05
 ##explist="historical_05 ctrl_proj_05 exp05_05"
 #explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
+###########################################################
+
+declare -a labs=(AWI AWI AWI BGC IMAU JPL NCAR UAF UAF UCIJPL)
+declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES IMAUICE2 ISSM CISM PISM1 PISM2 ISSM1)
+explist="expa01_05 expa02_05 expa03_05 "
+
+
 
 # variables
+vars="lithk orog topg sftflf sftgif sftgrf xvelmean yvelmean acabf"
+
 #vars="sftgrf"
 #vars="lithk orog topg sftflf sftgif sftgrf"
 #vars="xvelmean yvelmean acabf"
-vars="lithk orog topg sftflf sftgif sftgrf xvelmean yvelmean acabf"
 #vars="lithk"
 #vars="orog topg sftflf sftgif sftgrf"
+#vars="sftflf sftgif sftgrf"
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 

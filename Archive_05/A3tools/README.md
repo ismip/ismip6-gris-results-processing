@@ -46,22 +46,29 @@ find ../Data/ -name *.tmp | xargs -I xxx /bin/rm xxx
 ### Processing order
 download_ghub_reproc.sh
 download_ghub.sh
+meta_param.sh
    consolidate*.sh (See below propagating bed has to come before stripping hist!)
 strip_hist.sh
 remove_coordinates.sh
-meta_param.sh
 
 
 # Consolidation
-consolidate_AWI.sh
-consolidate_AWI2.sh
-
-
-
-consolidate_BGC.sh
-consolidate_BGC2.sh
-consolidate_UCIJPL.sh
-consolidate_VUB.sh
-consolidate_VUB2.sh
-
-
+consolidate_AWI.sh	# missing value flag 
+consolidate_AWI2.sh	# propagate topg on time axis
+#
+consolidate_BGC.sh	# variable name 
+consolidate_BGC2.sh	# missing value flag
+consolidate_BGC3.sh     # fix hist NaN in masks
+#
+consolidate_JPL1b.sh    # workaround, extrapolate last year
+#
+consolidate_UAF1b.sh    # workaround, extrapolate last year
+#
+consolidate_UCIJPL2.sh  # missing value flag
+consolidate_UCIJPL3.sh  # convert masks
+consolidate_UCIJPL3b.sh # re-calculate masks
+#
+consolidate_VUB1.sh     # propogate bed
+consolidate_VUB2b.sh    # workaround, extrapolate last year
+strip_hist.sh
+#
