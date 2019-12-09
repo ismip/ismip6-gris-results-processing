@@ -34,8 +34,11 @@ while [ $counter -lt ${count} ]; do
     #exps_res=asmb_05
     #exps_res="ctrl_05 hist_05"
     #exps_res="exp05_05"
-    exps_res="historical_05"
+
+    #exps_res="historical_05"
     
+    exps_res="expa01_05 expa02_05 expa03_05"
+
     # find experiments
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
@@ -58,19 +61,20 @@ while [ $counter -lt ${count} ]; do
 	ncatted -a _FillValue,sftgrf,o,d,NaN ${anc}
 	ncatted -a _FillValue,sftgrf,o,d,0. ${anc}
 	ncatted -a _FillValue,sftgrf,d,, ${anc}
+	echo ${anc}
 
 	anc=${apath}/sftgif_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	# fix missing value flag
 	ncatted -a _FillValue,sftgif,o,d,NaN ${anc}
 	ncatted -a _FillValue,sftgif,o,d,0. ${anc}
 	ncatted -a _FillValue,sftgif,d,, ${anc}
+	echo ${anc}
 	
 	anc=${apath}/sftflf_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	# fix missing value flag
 	ncatted -a _FillValue,sftflf,o,d,NaN ${anc}
 	ncatted -a _FillValue,sftflf,o,d,0. ${anc}
-	ncatted -a _FillValue,sftflf,d,, ${anc}
-	
+	ncatted -a _FillValue,sftflf,d,, ${anc}	
 	echo ${anc}
 
     done

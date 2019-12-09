@@ -60,12 +60,12 @@ consolidate_BGC.sh	# variable name
 consolidate_BGC2.sh	# missing value flag
 consolidate_BGC3.sh     # fix hist NaN in masks
 #
-consolidate_JPL1b.sh    # workaround, extrapolate last year
+consolidate_JPL1b.sh    # workaround, extrapolate last year (PALEO)
 #
 consolidate_UAF1b.sh    # workaround, extrapolate last year
 #
 consolidate_UCIJPL2.sh  # missing value flag
-consolidate_UCIJPL3.sh  # convert masks
+consolidate_UCIJPL3.sh  # convert masks (only ISSM2)
 consolidate_UCIJPL3b.sh # re-calculate masks
 #
 consolidate_VUB1.sh     # propogate bed

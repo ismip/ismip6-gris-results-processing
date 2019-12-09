@@ -23,6 +23,8 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 # Remote path
 RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 
+
+
 ## labs list
 #declare -a labs=(ILTS_PIK ILTS_PIK)
 #declare -a models=(SICOPOLIS2 SICOPOLIS3)
@@ -36,11 +38,11 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 #explist="historical_05 ctrl_proj_05 exp05_05"
 #explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
-## labs list
-declare -a labs=(VUB)
-declare -a models=(GISMSIAv3)
-#explist="historical_05 ctrl_proj_05"
-explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+### labs list
+#declare -a labs=(VUB)
+#declare -a models=(GISMSIAv3)
+##explist="historical_05 ctrl_proj_05"
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
 ## labs list
 #declare -a labs=(VUB)
@@ -53,11 +55,27 @@ explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05
 
 ## labs list
 #declare -a labs=(ILTS_PIK ILTS_PIK LSCE MUN MUN)
-#declare -a models=(SICOPOLIS2 SICOPOLIS3 GRISLI GSM2601 GSM2611)
+#declare -a models=(SICOPOLIS2 SICOPOLIS3 GRISLI2 GSM2601 GSM2611)
 ##explist="ctrl_proj_05 exp05_05"
 ##explist="historical_05 ctrl_proj_05 exp05_05"
 ##explist="historical_05"
 #explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+
+
+###########################################################
+#declare -a labs=(ILTS_PIK ILTS_PIK LSCE VUB)
+#declare -a models=(SICOPOLIS2 SICOPOLIS3 GRISLI2 GISMSIAv3)
+##explist="expa01_05 expa02_05 expa03_05 "
+#explist="expb01_05 expb02_05 expb03_05 expb04_05 expb05_05"
+
+# b
+declare -a labs=(ILTS_PIK ILTS_PIK VUB)
+declare -a models=(SICOPOLIS2 SICOPOLIS3 GISMSIAv3)
+explist="expb01_05 expb02_05 expb03_05 expb04_05 expb05_05"
+
+#declare -a labs=(LSCE)
+#declare -a models=(GRISLI2)
+#explist="expb01_05 expb02_05 expb03_05 expb05_05"
 
 
 # variables

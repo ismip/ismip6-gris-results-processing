@@ -36,12 +36,14 @@ while [ $counter -lt ${count} ]; do
     #exps_res="ctrl_05 hist_05"
     #exps_res="exp05_05"
     #exps_res="hist_05"
+
+    exps_res="expa01_05 expa02_05 expa03_05"
     
     # find experiments
-    dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
+    #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
-    exps_res=`basename -a ${dexps}`
+    #exps_res=`basename -a ${dexps}`
 
     echo "###"
     echo ${exps_res}
