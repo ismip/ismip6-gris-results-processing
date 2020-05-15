@@ -4,7 +4,7 @@
 # We try to correct minor filename problems by specifying the correct target name
 # See alos setting <flg_resadd> for cases where the resolution suffix is missing
 
-# Can be run to depends on a directory structure already in place. 
+# Can be run to depend on a directory structure already in place. 
 # In that case we update files in the existing directory structure 
 
 # Or specify groups/models manually 
@@ -47,9 +47,8 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 
 ### labs list
 #declare -a labs=(IMAU)
-## models list
-#declare -a models=(IMAUICE1)
-#explist="exp05_16"
+#declare -a models=(IMAUICE2)
+#explist="historical_05 exp05_05 ctrl_proj_05"
 
 
 ## labs list
@@ -63,7 +62,7 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 #declare -a labs=(LSCE)
 ## models list
 #declare -a models=(GRISLI)
-#explist="exp05_05"
+#explist="exp05_05 hist_05 ctrl_proj_05"
 
 
 ## labs list
@@ -75,25 +74,35 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 #flg_resadd=true # for models that do not have res suffix
 
 
-# labs list
-declare -a labs=(UCIJPL)
-# models list
-declare -a models=(ISSM1)
-explist="exp05_01"
+## labs list
+#declare -a labs=(UCIJPL)
+## models list
+#declare -a models=(ISSM1)
+#explist="exp05_01"
 
 ### labs list
 #declare -a labs=(VUB)
 ## models list
 #declare -a models=(GISMSIAv1)
 
+#declare -a labs=(UAF)
+#declare -a models=(PISM1)
+#explist="expb02_01"
 
+declare -a labs=(VUW)
+declare -a models=(PISM)
+explist="historical ctrl_proj"
+#explist="historical ctrl_proj exp05 exp06 exp07 exp08"
 
 
 # variables
 #vars="sftgrf"
-vars="lithk orog topg sftflf sftgif sftgrf"
+#vars="lithk orog topg sftflf sftgif sftgrf"
 #vars="lithk"
 #vars="orog topg sftflf sftgif sftgrf"
+#vars="acabf"
+vars="lithk orog topg sftflf sftgif sftgrf xvelmean yvelmean acabf"
+
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
