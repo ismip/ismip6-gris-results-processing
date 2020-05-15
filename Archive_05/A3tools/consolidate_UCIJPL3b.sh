@@ -11,6 +11,7 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
 declare -a labs=(UCIJPL)
 declare -a models=(ISSM1)
+#declare -a models=(ISSM2)
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -36,7 +37,11 @@ while [ $counter -lt ${count} ]; do
     #exps_res="exp05_05"
     #exps_res="historical_05"
     
-    exps_res="expa01_05 expa02_05 expa03_05"
+    #exps_res="expa01_05 expa02_05 expa03_05"
+
+    #exps_res="expb01_05 expb02_05 expb03_05"
+
+    exps_res="expb01_05"
 
     # find experiments
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`

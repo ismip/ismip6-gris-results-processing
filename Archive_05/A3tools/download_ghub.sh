@@ -62,20 +62,29 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 #explist="exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
 
 
+declare -a labs=(VUB)
+declare -a models=(GISMHOMv1)
+explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05   expa01_05 expa02_05 expa03_05    expb01_05 expb02_05 expb03_05 expb04_05 expb05_05"
+
+#declare -a labs=(VUW)
+#declare -a models=(PISM)
+#explist="historical ctrl_proj exp05 exp06 exp07 exp08"
+
+
 ###########################################################
 #declare -a labs=(ILTS_PIK ILTS_PIK LSCE VUB)
 #declare -a models=(SICOPOLIS2 SICOPOLIS3 GRISLI2 GISMSIAv3)
 ##explist="expa01_05 expa02_05 expa03_05 "
-#explist="expb01_05 expb02_05 expb03_05 expb04_05 expb05_05"
 
 # b
-declare -a labs=(ILTS_PIK ILTS_PIK VUB)
-declare -a models=(SICOPOLIS2 SICOPOLIS3 GISMSIAv3)
-explist="expb01_05 expb02_05 expb03_05 expb04_05 expb05_05"
+#declare -a labs=(ILTS_PIK ILTS_PIK VUB)
+#declare -a models=(SICOPOLIS2 SICOPOLIS3 GISMSIAv3)
+#explist="expb01_05 expb02_05 expb03_05 expb04_05 expb05_05"
 
 #declare -a labs=(LSCE)
 #declare -a models=(GRISLI2)
-#explist="expb01_05 expb02_05 expb03_05 expb05_05"
+#explist="expb01_05 expb02_05 expb03_05 expb04_05 expb05_05"
+#explist="expb04_05"
 
 
 # variables
@@ -123,7 +132,8 @@ while [ $counter -lt ${count} ]; do
 	cd ${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}/
 	
 	# strip resolution suffix from exp
-	exp=${exp_res%???}
+	#exp=${exp_res%???}
+	exp=${exp_res}
 
 	# exname is directory on server
 	if [ "$flg_resadd" = true ]; then

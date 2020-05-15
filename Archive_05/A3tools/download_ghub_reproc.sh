@@ -80,8 +80,7 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/Reprocessed/GIS/Archive_05
 #declare -a labs=(UCIJPL)
 #declare -a models=(ISSM2)
 #explist="historical_05"
-#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
-
+#explist="ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
 
 ### labs list
 #declare -a labs=(BGC GSFC IMAU JPL JPL UAF UAF UCIJPL UCIJPL)
@@ -97,10 +96,6 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/Reprocessed/GIS/Archive_05
 ###########################################################
 #declare -a labs=(AWI AWI AWI BGC GSFC IMAU JPL NCAR UAF UAF UCIJPL)
 #declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM IMAUICE2 ISSM CISM PISM1 PISM2 ISSM1)
-#explist="expa01_05 expa02_05 expa03_05 "
-
-#declare -a labs=(GSFC)
-#declare -a models=(ISSM)
 #explist="expa01_05 expa02_05 expa03_05 "
 
 # b
@@ -119,22 +114,49 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/Reprocessed/GIS/Archive_05
 #declare -a labs=(AWI AWI AWI NCAR)
 #declare -a models=(ISSM1 ISSM2 ISSM3 CISM)
 #explist="expb01_05 expb02_05 expb03_05 expb04_05 expb05_05"
-#
-#
-declare -a labs=(IMAU UAF UAF)
-declare -a models=(IMAUICE2 PISM1 PISM2)
-explist="expb01_05 expb02_05 expb03_05 expb05_05"
+
+#declare -a labs=(AWI)
+#declare -a models=(ISSM1)
+#explist="expb04_05"
+
+#declare -a labs=(IMAU UAF UAF JPL JPL)
+#declare -a models=(IMAUICE2 PISM1 PISM2 ISSM ISSMPALEO)
+#explist="expb01_05 expb02_05 expb03_05 expb05_05"
+
+#declare -a labs=(UAF)
+#declare -a models=(PISM1)
+#explist="expb02_05"
+
+#declare -a labs=(UCIJPL)
+#declare -a models=(ISSM1)
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+#explist="expa01_05 expa02_05 expa03_05 expb01_05 expb02_05 expb03_05"
+
+#declare -a labs=(UCIJPL)
+#declare -a models=(ISSM2)
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
 
 #declare -a labs=(BGC UCIJPL)
 #declare -a models=(BISICLES ISSM1)
 #explist="expb01_05 expb02_05 expb03_05"
 
-#declare -a labs=(GSFC JPL)
-#declare -a models=(ISSM ISSM)
-#explist="expb01_05 expb02_05"
+#declare -a labs=(GSFC)
+#declare -a models=(ISSM)
+#explist="exp05_05 exp06_05 exp07_05 exp08_05 exp09_05"
+
+#declare -a labs=(JPL)
+#declare -a models=(ISSMPALEO)
+#explist="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+#explist="expb01_05 expb02_05 expb03_05 expb05_05"
 
 
+#declare -a labs=(JPL)
+#declare -a models=(ISSM)
+#explist="expb04_05"
 
+declare -a labs=(UAF)
+declare -a models=(PISM1)
+explist="expa03_05"
 
 
 #declare -a labs=(AWI AWI AWI BGC GSFC IMAU JPL NCAR UAF UAF UCIJPL)
@@ -146,6 +168,8 @@ explist="expb01_05 expb02_05 expb03_05 expb05_05"
 
 # variables
 vars="lithk orog topg sftflf sftgif sftgrf xvelmean yvelmean acabf"
+
+#vars="acabf"
 
 #vars="sftgrf"
 #vars="lithk orog topg sftflf sftgif sftgrf"

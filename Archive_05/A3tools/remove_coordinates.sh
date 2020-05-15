@@ -12,32 +12,25 @@ outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 # Path to SFs
 sfs=/home/hgoelzer/Projects/ISMIP6/Grids/GrIS/SFs
 
+# or source default labs list
+#source ./set_default.sh
+
 # labs list
-#declare -a labs=(AWI AWI AWI)
-#declare -a models=(ISSM1 ISSM2 ISSM3)
-
-## labs list
-#declare -a labs=(UCIJPL)
-#declare -a models=(ISSM1)
-
-
 #declare -a labs=(BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE UAF UCIJPL)
 #declare -a models=(BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI PISM1 ISSM1)
 
-# or source default labs list
-source ./set_default.sh
+#declare -a labs=(VUW)
+#declare -a models=(PISM)
 
-#declare -a labs=(JPL)
-#declare -a models=(ISSMPALEO)
+## Individual submissions
+#declare -a labs=(GSFC)
+#declare -a models=(ISSM)
 
-#declare -a labs=(UAF)
-#declare -a models=(PISM1)
+#declare -a labs=(UCIJPL)
+#declare -a models=(ISSM1)
 
-#declare -a labs=(BGC)
-#declare -a models=(BISICLES)
-
-declare -a labs=(UAF UAF UCIJPL VUW)
-declare -a models=(PISM1 PISM2 ISSM2 PISM)
+declare -a labs=(UCIJPL UCIJPL JPL JPL)
+declare -a models=(ISSM1 ISSM2 ISSM ISSMPALEO)
 
 
 # array sizes match

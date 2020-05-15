@@ -50,8 +50,10 @@ while [ $counter -lt ${count} ]; do
     # set exps manually
     #exps_res=asmb_05
     #exps_res="ctrl_05 hist_05"
-    exps_res="exp05_05"
+    #exps_res="exp05_05"
     #exps_res="exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
+    
+    exps_res="expa01_05"
     
     # find experiments
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`

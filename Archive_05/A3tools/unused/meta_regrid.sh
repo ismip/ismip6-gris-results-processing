@@ -33,22 +33,28 @@ ptool=${outp05}/../A3tools
 ## models list
 #declare -a models=(IMAUICE1)
 
-# labs list
-declare -a labs=(GSFC)
-# models list
-declare -a models=(ISSM)
-
+## labs list
+#declare -a labs=(GSFC)
+## models list
+#declare -a models=(ISSM)
 
 ## labs list
 #declare -a labs=(GSFC JPL JPL UCIJPL)
 ## models list
 #declare -a models=(ISSM ISSM ISSMPALEO ISSM)
 
+# labs list
+declare -a labs=(UAF)
+# models list
+declare -a models=(PISM1)
+explist="expb02_01"
+
 
 # variables
-vars="lithk"
+#vars="lithk"
 #vars="sftgrf"
 #vars="lithk orog topg sftflf sftgif sftgrf"
+vars="acabf"
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -68,10 +74,16 @@ counter=0
 while [ $counter -lt ${count} ]; do
 
     # find experiments
-    dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d `
-    exps_res=`basename -a ${dexps}`
-    echo "###"
+    #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d `
+    #exps_res=`basename -a ${dexps}`
+    #echo "###"
+    #echo ${exps_res}
+
+    # specify exps manually
+    exps_res=${explist}
     echo ${exps_res}
+
+
     # loop trough experiments    
     for exp_res in ${exps_res}; do
 
