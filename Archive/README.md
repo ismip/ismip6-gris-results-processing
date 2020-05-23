@@ -1,4 +1,5 @@
-## ismip6-gris-results-processing
+# ismip6-gris-results-processing
+Collection of scripts to process ISMIP6 Greenland model projections
 
 ## Archive - aka A2
 Temporary copy of data on CCR upload server. Same physical data, but file and directory names adjusted to standards.
