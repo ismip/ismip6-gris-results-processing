@@ -5,7 +5,7 @@
 # requires cumulative acabf to be extracted before: use meta_2d_proj_cum_05.sh
 
 set -x
-set -e
+#set -e
 
 # location of Archive
 outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
