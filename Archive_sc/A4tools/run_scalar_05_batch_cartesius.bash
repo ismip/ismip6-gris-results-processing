@@ -1,7 +1,9 @@
 #!/bin/bash
 ##SBATCH -p short -N 1 -t 0:10:00
+##SBATCH -p short -N 1 -t 0:30:00
 #SBATCH -p normal -N 1 -t 1:00:00
-##SBATCH -p normal -N 1 -t 3:00:00
+##SBATCH -p normal -N 1 -t 5:00:00
+##SBATCH -p normal -N 1 -t 12:00:00
 
 # For interactive use:
 # srun -t 10 -N 1 --pty bash -il

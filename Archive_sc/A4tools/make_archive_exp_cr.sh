@@ -4,7 +4,7 @@ set -x
 #set -e
 
 # versioning
-aversion=v4
+aversion=v7
 
 # local path
 apath=../Data/SC_GIC1_OBS0
@@ -44,6 +44,7 @@ while [ $counter -lt ${count} ]; do
 	# register files for inclusion
 	afile=${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_mm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	bfile=${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_rm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	cfile=${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_zm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	if [ -e ${afile} ]; then
 	    mkdir -p ${exptarget}
 	    /bin/cp ${afile} ${exptarget}
@@ -51,6 +52,10 @@ while [ $counter -lt ${count} ]; do
 	if [ -e ${bfile} ]; then
 	    mkdir -p ${exptarget}
 	    /bin/cp ${bfile} ${exptarget}
+	fi
+	if [ -e ${cfile} ]; then
+	    mkdir -p ${exptarget}
+	    /bin/cp ${cfile} ${exptarget}
 	fi
     done
     # end exp loop

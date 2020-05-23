@@ -4,7 +4,8 @@ set -x
 set -e
 
 # versioning
-aversion=v2
+aversion=v6
+#aversion=v7
 
 HOST='transfer.ccr.buffalo.edu'
 
@@ -47,8 +48,18 @@ while [ $counter -lt ${count} ]; do
 
 	# register files for transfer
 	echo  "cd ${RPATH}/${aversion}/${labs[$counter]}/${models[$counter]}/${exp_res}/" >> sftpbatch.tmp
-	echo  "put ${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_mm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc" >> sftpbatch.tmp
-	echo  "put ${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_rm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc" >> sftpbatch.tmp
+	afile=${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_mm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	if [ -e $afile ]; then
+	    echo  "put $afile" >> sftpbatch.tmp
+	fi
+	afile=${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_rm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	if [ -e $afile ]; then
+	    echo  "put $afile" >> sftpbatch.tmp
+	fi
+	afile=${apath}/${labs[$counter]}/${models[$counter]}/${exp_res}/scalars_zm_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
+	if [ -e $afile ]; then
+	    echo  "put $afile" >> sftpbatch.tmp
+	fi
 		
     done
     # end exp loop

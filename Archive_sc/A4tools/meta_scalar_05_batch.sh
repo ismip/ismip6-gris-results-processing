@@ -5,7 +5,7 @@
 #!/bin/bash
 # Calculate scalar values for a number of models/experiments
 
-#set -x
+set -x
 set -e
 
 # location of Archive
@@ -17,8 +17,8 @@ outpsc=/home/hgoelzer/Projects/ISMIP6/Archive_sc/Data
 
 ## Settings
 # Remove GIC contribution? 
-#flg_GICmask=false # [Default true!]
-flg_GICmask=true # [Default true!]
+flg_GICmask=false # [Default true!]
+#flg_GICmask=true # [Default true!]
 # Remove ice outside observed ice mask (can be combined with GIC masking) 
 flg_OBSmask=false # [Default false!]
 
@@ -26,6 +26,44 @@ ares=05
 
 # or source default labs list
 source ./set_default.sh
+
+#exps_res="historical_05"
+
+# Override default
+#declare -a labs=(AWI)
+#declare -a models=(ISSM1)
+#exps_res="expb04_05"
+
+#declare -a labs=(LSCE)
+#declare -a models=(GRISLI2)
+#exps_res="expb04_05"
+
+#declare -a labs=(UAF)
+#declare -a models=(PISM1)
+#exps_res="expa03_05"
+
+#declare -a labs=(UCIJPL)
+#declare -a models=(ISSM1)
+#exps_res="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
+#exps_res="historical_05"
+#exps_res="expa01_05 expa02_05 expa03_05 expb01_05 expb02_05 expb03_05"
+
+#declare -a labs=(VUW)
+#declare -a models=(PISM)
+##exps_res="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
+#exps_res="historical_05"
+
+#declare -a labs=(GSFC)
+#declare -a models=(ISSM)
+#exps_res="exp05_05"
+
+#declare -a labs=(JPL)
+#declare -a models=(ISSM)
+#exps_res="expb04_05"
+
+declare -a labs=(VUB)
+declare -a models=(GISMHOMv1)
+
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -70,6 +108,7 @@ while [ $counter -lt ${count} ]; do
 
 	proc=${labs[$counter]}_${models[$counter]}_${exp_res}
 	mkdir -p ${proc}
+	touch ${proc}
 
 	(
 

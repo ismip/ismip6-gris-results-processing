@@ -19,16 +19,27 @@ RPATH=/projects/grid/ghub/ISMIP6/Projections/GrIS/output
 #declare -a models=(GISMSIAv1)
 
 ## labs list
-declare -a labs=(IMAU)
+#declare -a labs=(IMAU)
 # models list
-declare -a models=(IMAUICE1)
+#declare -a models=(IMAUICE1)
+
+#### Final archive
+## All in
+#declare -a labs=(AWI AWI AWI BGC GSFC ILTS_PIK ILTS_PIK IMAU IMAU JPL JPL LSCE MUN MUN NCAR UAF UAF UCIJPL UCIJPL VUB VUW)
+#declare -a models=(ISSM1 ISSM2 ISSM3 BISICLES ISSM SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 ISSM ISSMPALEO GRISLI2 GSM2601 GSM2611 CISM PISM1 PISM2 ISSM1 ISSM2 GISMHOMv1 PISM)
+## All available
+#declare -a labs=(ILTS_PIK ILTS_PIK IMAU IMAU LSCE MUN MUN NCAR UCIJPL UCIJPL VUB VUW)
+#declare -a models=(SICOPOLIS2 SICOPOLIS3 IMAUICE1 IMAUICE2 GRISLI2 GSM2601 GSM2611 CISM ISSM1 ISSM2 GISMHOMv1 PISM)
+
+declare -a labs=(NCAR)
+declare -a models=(CISM)
 
 # strip resolution suffix
 flg_strip=true
 #flg_strip=false # for models that do not have res suffix: MUN
 
 # variables
-vars="tendlifmassbf tendlibmassbffl tendlibmassbf tendacabf tendlicalvf limnsw iareagr iareafl lim"
+vars="tendacabf limnsw iareagr iareafl lim"
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -56,20 +67,21 @@ while [ $counter -lt ${count} ]; do
     # loop trough experiments    
     for exp_res in ${exps_res}; do
 
+	# strip resolution suffix from exp
+	if [ "$flg_strip" = true ]; then
+	    exp=${exp_res%???}
+	else
+	    exp=${exp_res}
+	fi
+
 	cd ${outp}/${labs[$counter]}/${models[$counter]}/${exp_res}/
 	#   # loop trough vars
 	for var in ${vars}; do
 
-	    # strip resolution suffix from exp
-	    if [ "$flg_strip" = true ]; then
-		exp=${exp_res%???}
-	    else
-		exp=${exp_res}
-	    fi
 	    # this is the target name, but the file on the ftp may be different
 	    anc=${var}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 
-	    echo ${afile}
+	    echo ${anc}
 
 	    # scp transaction; Allow generous interpretation of filename
 	    # as long the the varname is correct

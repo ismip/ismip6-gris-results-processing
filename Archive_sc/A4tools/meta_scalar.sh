@@ -100,7 +100,7 @@ while [ $counter -lt ${count} ]; do
     # A. set exps manually
     #exps_res=asmb_${ares}
     #exps_res="ctrl_${ares} historical_${ares}"
-    exps_res="exp05_${ares}"
+    #exps_res="exp05_${ares}"
     #exps_res="historical_${ares}"
     #exps_res="ctrl_${ares}"
     #exps_res="ctrl_proj_${ares} historical_${ares} exp05_${ares}"

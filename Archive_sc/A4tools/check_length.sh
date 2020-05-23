@@ -59,7 +59,7 @@ else
     exit 1
 fi
 
-vars="scalars_mm"
+vars="scalars_mm scalars_mm_cr scalars_rm scalars_rm_cr scalars_zm scalars_zm_cr"
 
 ##### 
 echo "------------------"

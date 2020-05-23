@@ -18,13 +18,21 @@ set -e
 datapath=/home/hgoelzer/Projects/ISMIP6/Data
 
 ## What output to process
+flg_mm=true  # Integrals on model mask
+flg_rm=false  # IMBIE2-Rignot basins
+flg_zm=false  # IMBIE2-Zwally basins
+
 #flg_mm=true  # Integrals on model mask
-#flg_rm=false  # IMBIE2-Rignot basins
+#flg_rm=true  # IMBIE2-Rignot basins
 #flg_zm=false  # IMBIE2-Zwally basins
 
-flg_mm=true  # Integrals on model mask
-flg_rm=true  # IMBIE2-Rignot basins
-flg_zm=false  # IMBIE2-Zwally basins
+#flg_mm=false  # Integrals on model mask
+#flg_rm=false  # IMBIE2-Rignot basins
+#flg_zm=true  # IMBIE2-Zwally basins
+
+#flg_mm=true  # Integrals on model mask
+#flg_rm=true  # IMBIE2-Rignot basins
+#flg_zm=true  # IMBIE2-Zwally basins
 
 
 ## What masking to apply If true, applied to all output

@@ -4,7 +4,7 @@
 # requires a full scalar archive with ctrl_proj and exps 
 
 set -x
-#set -e
+set -e
 
 # Destination for 2d files
 outpsc=/home/hgoelzer/Projects/ISMIP6/Archive_sc/Data/SC_GIC1_OBS0
@@ -16,17 +16,28 @@ ares=05
 flg_rb=true
 
 # or source default labs list
-source ./set_default.sh
+source ./set_default_cr.sh
 
 # Override default
 #declare -a labs=(LSCE)
 #declare -a models=(GRISLI2)
 #exps_res="expb04_05"
 
-# Override default
 #declare -a labs=(UCIJPL)
 #declare -a models=(ISSM1)
-#exps_res="expb01_05"
+#exps_res="expa01_05 expa02_05 expa03_05 expb01_05 expb02_05 expb03_05"
+
+#declare -a labs=(VUW)
+#declare -a models=(PISM)
+#exps_res="ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
+
+#declare -a labs=(JPL)
+#declare -a models=(ISSM)
+#exps_res="expb04_05"
+
+declare -a labs=(UAF)
+declare -a models=(PISM1)
+exps_res="expa03_05"
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -38,7 +49,7 @@ fi
 
 # Define files to process
 #files="scalars_mm"
-files="scalars_mm scalars_rm"
+files="scalars_mm scalars_rm scalars_zm"
 
 ##### 
 echo "------------------"
@@ -83,34 +94,39 @@ while [ $counter -lt ${count} ]; do
 	destpath=${outpsc}/${prefix}/${labs[$counter]}/${models[$counter]}/${exp_res}
 	#mkdir -p ${destpath}
 	
-	# loop through variables
+	# loop through files
 	for afile in ${files}; do
 
 	    anc_ctrl=${ctrlpath}/${afile}_GIS_${labs[$counter]}_${models[$counter]}_ctrl_proj.nc
 	    anc_exp=${destpath}/${afile}_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
 	    anc_diff=${destpath}/${afile}_cr_GIS_${labs[$counter]}_${models[$counter]}_${exp}.nc
-	    # difference to ctrl_proj
-	    ncdiff -O ${anc_exp} ${anc_ctrl} anc_cr_tmp.nc
 
-	    if ($flg_rb); then
-		# Remove offset
-		/bin/cp anc_cr_tmp.nc anc_cr_tmp0.nc
+	    if [ -f "$anc_ctrl" -a -f "$anc_exp" ]; then
+		# difference to ctrl_proj
+		ncdiff -O ${anc_exp} ${anc_ctrl} anc_cr_tmp.nc
 		
-		# Get vars
-		vars=`ncks -m anc_cr_tmp0.nc  | grep "1 dimension" | grep -v time | awk -F ':' '{print $1}'`
-		echo $vars
-		for avar in $vars; do
-		    ncap2 -O -s "*var_tmp=${avar}(0); ${avar}=float(${avar}-var_tmp)" anc_cr_tmp0.nc anc_cr_tmp0.nc
-		done
-		/bin/mv anc_cr_tmp0.nc anc_cr_tmp.nc
+		if ($flg_rb); then
+		    # Remove offset
+		    /bin/cp anc_cr_tmp.nc anc_cr_tmp0.nc
+		    
+		    # Get vars
+		    vars=`ncks -m anc_cr_tmp0.nc  | grep "1 dimension" | grep -v time | awk -F ':' '{print $1}'`
+		    echo $vars
+		    for avar in $vars; do
+			ncap2 -O -s "*var_tmp=${avar}(0); ${avar}=float(${avar}-var_tmp)" anc_cr_tmp0.nc anc_cr_tmp0.nc
+		    done
+		    /bin/mv anc_cr_tmp0.nc anc_cr_tmp.nc
+		fi
+
+		# add back constants
+		ncks -A -v oarea,rhof,rhoi,rhow,dx,dy ${anc_exp} anc_cr_tmp.nc
+		# move to Archive
+		[ -f anc_cr_tmp.nc ] && /bin/mv anc_cr_tmp.nc ${anc_diff}
+
 	    fi
 
-	    # add back constants
-	    ncks -A -v oarea,rhof,rhoi,rhow,dx,dy ${anc_exp} anc_cr_tmp.nc
-	    # move to Archive
-	    [ -f anc_cr_tmp.nc ] && /bin/mv anc_cr_tmp.nc ${anc_diff}
 	done
-	    # end year loop
+	# end file loop
 
     done
     # end exp loop
