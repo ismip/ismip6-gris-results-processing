@@ -17,26 +17,19 @@ remove_coordinates.sh
 
 
 # Consolidation
-consolidate_AWI.sh	# missing value flag 
+consolidate_AWI1.sh	# missing value flag 
 consolidate_AWI2.sh	# propagate topg on time axis
 #
-consolidate_BGC.sh	# variable name 
+consolidate_BGC1.sh	# variable name 
 consolidate_BGC2.sh	# missing value flag
 consolidate_BGC3.sh     # fix hist NaN in masks
 #
-consolidate_JPL1b.sh    # workaround, extrapolate last year (PALEO)
+consolidate_UAF.sh    # workaround, extrapolate last year
 #
-consolidate_UAF1b.sh    # workaround, extrapolate last year
+consolidate_UCIJPL.sh  # missing value flag
 #
-consolidate_UCIJPL2.sh  # missing value flag
-[consolidate_UCIJPL3.sh]  # convert masks (only ISSM2)
-[consolidate_UCIJPL3b.sh] # re-calculate masks
-#
-consolidate_VUB0.sh     # remove res suffic from file names
-consolidate_VUB1.sh     # propogate bed
-[consolidate_VUB2b.sh]    # workaround, extrapolate last year
-[strip_hist.sh]
-#
+consolidate_VUB1.sh     # remove res suffix from file names
+consolidate_VUB2.sh     # propogate bed
 
 
 ###############

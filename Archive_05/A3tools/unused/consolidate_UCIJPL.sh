@@ -10,8 +10,7 @@
 outp=/home/hgoelzer/Projects/ISMIP6/Archive_05/Data
 
 declare -a labs=(UCIJPL)
-declare -a models=(ISSM1)
-#declare -a models=(ISSM2)
+declare -a models=(ISSM2)
 
 # array sizes match
 if [ ${#labs[@]} -eq ${#models[@]} ]; then 
@@ -35,26 +34,12 @@ while [ $counter -lt ${count} ]; do
     #exps_res=asmb_05
     #exps_res="ctrl_05 hist_05"
     #exps_res="exp05_05"
-    #exps_res="historical_05"
-
-    #exps_res="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
-
-    #exps_res="ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05"
-    
-    #exps_res="historical_05 ctrl_proj_05 exp05_05 exp06_05 exp07_05 exp08_05 exp09_05 exp10_05"
-
-    exps_res="expa01_05 expa02_05 expa03_05 expb01_05 expb02_05 expb03_05"
-
-    #exps_res="expa01_05 expa02_05 expa03_05"
-
-    #exps_res="expb01_05 expb02_05 expb03_05"
-
-    #exps_res="expb01_05"
+    #exps_res="hist_05"
     
     # find experiments
     #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name exp*`
-    #dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
-    #exps_res=`basename -a ${dexps}`
+    dexps=`find ${outp}/${labs[$counter]}/${models[$counter]}/* -maxdepth 0 -type d -name *_05`
+    exps_res=`basename -a ${dexps}`
 
     echo "###"
     echo ${exps_res}
